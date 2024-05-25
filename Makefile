@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/05/18 16:04:36 by ivromero         ###   ########.fr        #
+#    Updated: 2024/05/25 22:11:05 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,9 @@ CC				= gcc
 RM				= rm -f
 AR				= ar rcs
 
-#LIBFT_LIB 		= libft/
-#LIBFT_FLAGS 	= -L libft/ -lft
-RL_FLAGS 		= -lreadline
-CFLAGS 			= -Wall -Wextra -Werror -Wpedantic #-g -fsanitize=address #-fsanitize=thread # 
+LIBFT_PATH 		= libft/
+LIBS_FLAGS 		= -lreadline -L $(LIBFT_PATH) -lft
+CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic #-g -fsanitize=address #-fsanitize=thread # 
 DEBUG_FLAGS 	= -Wall -Wextra -Werror -g3 -D DEBUG=2 #-fsanitize=address
 VALGRIND_FLAGS 	= -Wall -Wextra -Werror #-g 
 HELGRIND_FLAGS 	= -Wall -Wextra -Werror #-g #-fsanitize=thread bloquea ordenador
@@ -37,7 +36,7 @@ REPGIT_URL		= git@github.com:imero-dev/minishell.git
 
 #ARGS			= 200 60 60 60
 
-#default: test testv testh# all
+default: all .anime #test testv testh# all
 
 ##########################################################################################
 ##########################################################################################
@@ -82,13 +81,14 @@ GREEN		= \e[0;32m
 BLUE		= \e[1;34m\e[4m
 NC			= \e[0m
 
-all:	 .init $(NAME) .anime
+all:	 .init 
+		@make $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 		@mkdir -p $(OBJ_PATH)
-#		@echo "\e[u🟧\e[s"
-		@$(CC) $(CFLAGS) -o $@ -c $<
-		@echo -n 🟧
+		@echo "\e[u🟧\e[s"
+		$(CC) $(CFLAGS) -o $@ -c $<
+#		@echo -n 🟧
 
 $(OBJDBG_PATH)%.o: $(SRC_PATH)%.c
 		@mkdir -p $(OBJDBG_PATH)
@@ -100,24 +100,28 @@ $(OBJVLG_PATH)%.o: $(SRC_PATH)%.c
 		@$(CC) $(VALGRIND_FLAGS) -o $@ -c $<
 		@echo -n 🟧
 
-$(NAME): $(OBJS) $(H_FILES)
-		@echo 
-#		@make -C $(LIBFT_LIB) 
+$(NAME): $(OBJS) $(H_FILES) 
+		@make -C $(LIBFT_PATH) all
 #		@if [ ! -f "readline-8.2/readline.h" ]; then wget ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz; tar -xvzf readline-8.2.tar.gz; fi;
 		@echo "$(ORANGE)Linking:$(NC) $@"
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)  $(RL_FLAGS)
-		@touch .init
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS_FLAGS)
 		@echo "$(GREEN)Finished:$(NC) $@"
+#		@make  .anime
 
-.init:
-		@echo ""
-		@echo "$(BLUE)$(NAME) compiling from scratch:$(NC)"
-		@echo -n "\e[s⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️\e[u"
+.init: 
+#		@echo ""
+		@echo "$(BLUE)Building $(NAME):$(NC)"
+		@echo -n "⬛\e[s"
+		@for i in $(OBJS); do \
+			echo -n "⬛"; \
+		done
+		@echo "⬛"
+#		@touch .init
 
 #bonus: $(BONUS_NAME)
 
 #$(BONUS_NAME): $(OBJSBONUS)
-##		@make -C $(LIBFT_LIB) > /dev/null
+##		@make -C $(LIBFT_PATH) > /dev/null
 #		@$(CC) $(DEBUG_FLAGS) $(CFLAGS) $(OBJSBONUS)-o $(BONUS_NAME)
 #		@echo "$(GREEN)Compilación terminada:$(NC) $@"
 #		@#make info
@@ -126,13 +130,13 @@ $(NAME): $(OBJS) $(H_FILES)
 clean:
 		@$(RM) $(OBJS) $(OBJSBONUS) $(OBJS_DEBUG) $(OBJS_VALGR) .init
 		@$(RM) -rf $(OBJ_PATH) $(OBJDBG_PATH) $(OBJVLG_PATH)
-#		@make -C $(LIBFT_LIB) clean 
+		@make -C $(LIBFT_PATH) clean 
 		@echo "$(GREEN)clean done:$(NC) $(NAME)"
 
 fclean:	clean
 		@$(RM) $(NAME) $(BONUS_NAME) $(NAME_DEBUG) $(BONUS_NAME)_debug $(NAME_VALGR) .init
 		@$(RM) -rf *.dSYM
-#		@make -C $(LIBFT_LIB) fclean
+		@make -C $(LIBFT_PATH) fclean
 		@echo "$(GREEN)fclean done:$(NC) $(NAME)"
 
 re:		fclean all
@@ -162,7 +166,7 @@ debug:	$(NAME_DEBUG)
 
 $(NAME_DEBUG): $(OBJS_DEBUG)
 		@echo "flags: $(DEBUG_FLAGS)"
-#		@make -C $(LIBFT_LIB) debug DEBUG_FLAGS="$(DEBUG_FLAGS)"
+		@make -C $(LIBFT_PATH) debug DEBUG_FLAGS="$(DEBUG_FLAGS)"
 		$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG)
 		@echo "Compilación terminada: $@"
 		
@@ -179,7 +183,7 @@ helgrind:
 
 $(NAME_VALGR): clean_valgr $(OBJS_VALGR)
 		@echo "flags: $(VALGRIND_FLAGS)"
-#		@make -C $(LIBFT_LIB) valgrind
+		@make -C $(LIBFT_PATH) valgrind
 		$(CC) $(VALGRIND_FLAGS) $(OBJS_VALGR) -o $(NAME_VALGR)
 		@echo "Compilación terminada: $@"
 		
@@ -240,13 +244,14 @@ else
 		git push
 		@echo "⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜   VOGSPHERE  ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️"
 #		@$(RM) -rf $(REPO_PATH)/*
-#		@cp -r $(LIBFT_LIB) $(REPO_PATH)$(LIBFT_LIB)
+#		@cp -r $(LIBFT_PATH) $(REPO_PATH)$(LIBFT_PATH)
 		@echo "Vamos a borrar la carpeta $(REPO_PATH)"
 		@make pregunta
 		@$(RM) -rf $(REPO_PATH)
 		@git clone $(REPGIT_URL) $(REPO_PATH)
 		@mkdir -p "$(REPO_PATH)$(EX_PATH)"
 		@mkdir -p "$(REPO_PATH)$(EX_PATH)$(SRC_PATH)"
+		@cp -r $(LIBFT_PATH) $(REPO_PATH)$(LIBFT_PATH)
 		@cp  $(SRC) $(REPO_PATH)$(EX_PATH)$(SRC_PATH)
 		@cp  $(H_FILES) $(REPO_PATH)$(EX_PATH)$(H_FILES)
 		@cp Makefile $(REPO_PATH)$(EX_PATH)Makefile

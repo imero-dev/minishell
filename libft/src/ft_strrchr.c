@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/25 22:02:44 by ivromero         ###   ########.fr       */
+/*   Created: 2023/04/21 13:25:25 by ivromero          #+#    #+#             */
+/*   Updated: 2023/04/26 21:10:46 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/src/libft.h"
+#include "libft.h"
 
+char	*ft_strrchr(const char *s, int c)
+{
+	int	len;
+
+	len = ft_strlen(s) + 1;
+	while (--len >= 0)
+		if (s[len] == (c % 256))
+			return ((char *)(s + len));
+	return (NULL);
+}

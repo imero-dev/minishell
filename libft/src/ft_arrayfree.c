@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_arrayfree.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/25 22:02:44 by ivromero         ###   ########.fr       */
+/*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
+/*   Updated: 2024/05/01 13:43:11 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/src/libft.h"
+#include "libft.h"
 
+int	ft_arrayfree(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		if (array[i])
+			free(array[i++]);
+	free(array);
+	return (0);
+}

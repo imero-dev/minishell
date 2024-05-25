@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/25 22:02:44 by ivromero         ###   ########.fr       */
+/*   Created: 2023/04/22 02:06:18 by ivromero          #+#    #+#             */
+/*   Updated: 2023/04/26 20:57:04 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/src/libft.h"
+#include "libft.h"
 
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	size_t	i;
+
+	i = -1;
+	if (s && f)
+		while (s[++i])
+			f(i, &s[i]);
+}

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/25 22:02:44 by ivromero         ###   ########.fr       */
+/*   Created: 2023/04/28 01:02:43 by ivromero          #+#    #+#             */
+/*   Updated: 2023/05/13 23:27:58 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/src/libft.h"
+#include "libft.h"
 
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*list;
+
+	list = (t_list *)malloc(sizeof(t_list));
+	if (list)
+		list->content = content;
+	if (list)
+		list->next = NULL;
+	return (list);
+}
