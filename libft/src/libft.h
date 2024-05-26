@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/01 13:08:13 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/05/26 13:07:09 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,7 @@ int					ft_printf_debug(char const *format, int debug, ...);
 int					ft_isspace(int c);
 
 long				ft_atol(const char *str);
+
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif

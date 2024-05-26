@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/26 03:12:20 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/05/26 13:20:34 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	com_cd(char *arg)
 {
 	if (arg == NULL || arg[0] == '\0' || arg[0] == '~')
 	{
-		if (chdir(getenv("HOME")) == -1)
+		if (chdir(getenv("HOME")) == -1)// test evaluation point
 		{
-			printf("cd: %s: No such file or directory ", arg);
+			printf("cd: %s: No such file or directory\n", arg);
 			return (1);
 		}
 		com_pwd();
@@ -48,7 +48,7 @@ int	com_cd(char *arg)
 	}
 	if (chdir(arg) == -1)
 	{
-		printf("cd: %s: No such file or directory ", arg);
+		printf("cd: %s: No such file or directory\n", arg);
 		return (1);
 	}
 	com_pwd();

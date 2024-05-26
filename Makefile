@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/05/26 03:32:39 by ivromero         ###   ########.fr        #
+#    Updated: 2024/05/26 15:04:36 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ AR				= ar rcs
 
 LIBFT_PATH 		= libft/
 LIBS_FLAGS 		= -lreadline -L $(LIBFT_PATH) -lft
-CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic -g -fsanitize=address #-fsanitize=thread # 
+CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic -g3 #-fsanitize=address #-fsanitize=thread # 
 DEBUG_FLAGS 	= -Wall -Wextra -Werror -g3 -D DEBUG=2 #-fsanitize=address
-VALGRIND_FLAGS 	= -Wall -Wextra -Werror #-g 
-HELGRIND_FLAGS 	= -Wall -Wextra -Werror #-g #-fsanitize=thread bloquea ordenador
+VALGRIND_FLAGS 	= -Wall -Wextra -Werror -g 
+HELGRIND_FLAGS 	= -Wall -Wextra -Werror -g #-fsanitize=thread bloquea ordenador
 VALGR_RUN_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --gen-suppressions=yes
 
 REPO_PATH		= ./repo/
