@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_ext.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:08:03 by ivromero          #+#    #+#             */
-/*   Updated: 2024/04/08 04:21:28 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/05/26 03:22:41 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ char	*ft_strjoinglue(char const *glue, ...)
 	return (va_end(args), str);
 }
 
+/* 
+**
+**	Join multiple strings together, dont forget to end the list with NULL
+**
+ */
 char	*ft_strjoinmulti(char const *first, ...)
 {
 	va_list	args;
@@ -73,8 +78,10 @@ char	*ft_strjoinmulti(char const *first, ...)
 	tmp = va_arg(args, char *);
 	while (tmp)
 	{
+		tmp = ft_strdup(tmp);
 		str = ft_strjoinfree(str, tmp);
 		tmp = va_arg(args, char *);
 	}
+	free(tmp);
 	return (va_end(args), str);
 }

@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/05/25 22:11:05 by ivromero         ###   ########.fr        #
+#    Updated: 2024/05/26 03:32:39 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ AR				= ar rcs
 
 LIBFT_PATH 		= libft/
 LIBS_FLAGS 		= -lreadline -L $(LIBFT_PATH) -lft
-CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic #-g -fsanitize=address #-fsanitize=thread # 
+CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic -g -fsanitize=address #-fsanitize=thread # 
 DEBUG_FLAGS 	= -Wall -Wextra -Werror -g3 -D DEBUG=2 #-fsanitize=address
 VALGRIND_FLAGS 	= -Wall -Wextra -Werror #-g 
 HELGRIND_FLAGS 	= -Wall -Wextra -Werror #-g #-fsanitize=thread bloquea ordenador
-VALGR_RUN_FLAGS	= --leak-check=full --show-leak-kinds=all --track-origins=yes
+VALGR_RUN_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --gen-suppressions=yes
 
 REPO_PATH		= ./repo/
 #EX_PATH			= ./ex01/
@@ -81,6 +81,9 @@ GREEN		= \e[0;32m
 BLUE		= \e[1;34m\e[4m
 NC			= \e[0m
 
+##########################################################################################
+##########################################################################################
+
 all:	 .init 
 		@make $(NAME)
 
@@ -89,16 +92,6 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 		@echo "\e[u🟧\e[s"
 		$(CC) $(CFLAGS) -o $@ -c $<
 #		@echo -n 🟧
-
-$(OBJDBG_PATH)%.o: $(SRC_PATH)%.c
-		@mkdir -p $(OBJDBG_PATH)
-		@$(CC) $(DEBUG_FLAGS) -o $@ -c $<
-		@echo -n 🟧
-
-$(OBJVLG_PATH)%.o: $(SRC_PATH)%.c
-		@mkdir -p $(OBJVLG_PATH)
-		@$(CC) $(VALGRIND_FLAGS) -o $@ -c $<
-		@echo -n 🟧
 
 $(NAME): $(OBJS) $(H_FILES) 
 		@make -C $(LIBFT_PATH) all
@@ -160,6 +153,16 @@ norminette:
 #       | (grep --color=always -E '.c' || cat)
 #		@norminette src/*.c src_bonus/*.c libft/*.c libft/*.h headers/*.h | grep -E '(Error|Warning)' ; true
 
+$(OBJDBG_PATH)%.o: $(SRC_PATH)%.c
+		@mkdir -p $(OBJDBG_PATH)
+		@$(CC) $(DEBUG_FLAGS) -o $@ -c $<
+		@echo -n 🟧
+
+$(OBJVLG_PATH)%.o: $(SRC_PATH)%.c
+		@mkdir -p $(OBJVLG_PATH)
+		@$(CC) $(VALGRIND_FLAGS) -o $@ -c $<
+		@echo -n 🟧
+
 debug-re:fclean debug
 
 debug:	$(NAME_DEBUG)
@@ -167,7 +170,7 @@ debug:	$(NAME_DEBUG)
 $(NAME_DEBUG): $(OBJS_DEBUG)
 		@echo "flags: $(DEBUG_FLAGS)"
 		@make -C $(LIBFT_PATH) debug DEBUG_FLAGS="$(DEBUG_FLAGS)"
-		$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG)
+		$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBS_FLAGS)_debug
 		@echo "Compilación terminada: $@"
 		
 lldb: $(NAME_DEBUG)
@@ -184,7 +187,7 @@ helgrind:
 $(NAME_VALGR): clean_valgr $(OBJS_VALGR)
 		@echo "flags: $(VALGRIND_FLAGS)"
 		@make -C $(LIBFT_PATH) valgrind
-		$(CC) $(VALGRIND_FLAGS) $(OBJS_VALGR) -o $(NAME_VALGR)
+		$(CC) $(VALGRIND_FLAGS) $(OBJS_VALGR) -o $(NAME_VALGR) $(LIBS_FLAGS)_valgr
 		@echo "Compilación terminada: $@"
 		
 clean_valgr:
@@ -251,7 +254,7 @@ else
 		@git clone $(REPGIT_URL) $(REPO_PATH)
 		@mkdir -p "$(REPO_PATH)$(EX_PATH)"
 		@mkdir -p "$(REPO_PATH)$(EX_PATH)$(SRC_PATH)"
-		@cp -r $(LIBFT_PATH) $(REPO_PATH)$(LIBFT_PATH)
+		@cp -r $(LIBFT_PATH) $(REPO_PATH)
 		@cp  $(SRC) $(REPO_PATH)$(EX_PATH)$(SRC_PATH)
 		@cp  $(H_FILES) $(REPO_PATH)$(EX_PATH)$(H_FILES)
 		@cp Makefile $(REPO_PATH)$(EX_PATH)Makefile

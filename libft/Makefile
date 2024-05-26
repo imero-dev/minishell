@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/21 13:25:53 by ivromero          #+#    #+#              #
-#    Updated: 2024/05/25 21:36:32 by ivromero         ###   ########.fr        #
+#    Updated: 2024/05/26 02:12:04 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,13 +104,15 @@ re:		fclean all
 debug:	$(NAME_DEBUG)
 
 $(NAME_DEBUG): $(OBJS_DEBUG)
+		@echo "flags: $(DEBUG_FLAGS)"
 		@echo "\nLinking: $@"
-		@$(AR) $(NAME_DEBUG) $(OBJS_DEBUG)
+		$(AR) $(NAME_DEBUG) $(OBJS_DEBUG)
 		@echo "$(GREEN)Compilación terminada:$(NC) $@"
 
 valgrind: $(NAME_VALGR)
 
 $(NAME_VALGR): $(OBJS_VALGR)
+		@echo "flags: $(VALGRIND_FLAGS)"
 		@echo "\nLinking: $@"
 		@$(AR) $(NAME_VALGR) $(OBJS_VALGR)
 		@echo "$(GREEN)Compilación terminada:$(NC) $@"

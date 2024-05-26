@@ -1,0 +1,54 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "(gdb) Attach",
+			"type": "cppdbg",
+			"request": "attach",
+			"program": "enter program name, for example ${workspaceFolder}/a.out",
+			"MIMode": "gdb"
+		},
+
+		{
+			"name": "(gdb) Debug",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/minishell_debug",
+			"args": [""],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"preLaunchTask": "make"
+		},
+		{
+			"name": "(gdb) Debug-re",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/minishell_debug",
+			"args": [""],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"preLaunchTask": "make debug-re"
+		},
+		{
+			"name": "(gdb) Debug Bonus",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/minishell_debug",
+			"args": [""],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"preLaunchTask": "make debug_bonus"
+		}
+		
+
+	]
+}

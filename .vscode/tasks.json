@@ -1,0 +1,40 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "make",
+			"type": "shell",
+			"command": "make",
+			"args": [
+				"debug"
+			],
+			"group": "build",
+			"presentation": {
+			},
+		},
+		{
+			"label": "make debug-re",
+			"type": "shell",
+			"command": "make",
+			"args": [
+				"debug-re"
+			],
+			"group": "build",
+			"presentation": {
+			},
+		},
+		{
+			"label": "make debug_bonus",
+			"type": "shell",
+			"command": "make",
+			"args": [
+				"debug_bonus"
+			],
+			"group": "build",
+			"presentation": {
+			},
+		}
+	]
+}
