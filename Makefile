@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/05/26 15:04:36 by ivromero         ###   ########.fr        #
+#    Updated: 2024/05/28 02:53:59 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ AR				= ar rcs
 
 LIBFT_PATH 		= libft/
 LIBS_FLAGS 		= -lreadline -L $(LIBFT_PATH) -lft
-CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic -g3 #-fsanitize=address #-fsanitize=thread # 
-DEBUG_FLAGS 	= -Wall -Wextra -Werror -g3 -D DEBUG=2 #-fsanitize=address
+CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic #-g -fsanitize=address #-fsanitize=thread # 
+DEBUG_FLAGS 	= -Wall -Wextra -Werror -g -D DEBUG=2 #-fsanitize=address
 VALGRIND_FLAGS 	= -Wall -Wextra -Werror -g 
 HELGRIND_FLAGS 	= -Wall -Wextra -Werror -g #-fsanitize=thread bloquea ordenador
-VALGR_RUN_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --gen-suppressions=yes
+VALGR_RUN_FLAGS = --leak-check=full --show-leak-kinds=all --track-origins=yes --gen-suppressions=yes  --suppressions=./readline.supp
 
 REPO_PATH		= ./repo/
 #EX_PATH			= ./ex01/
@@ -198,15 +198,15 @@ clean_valgr:
 test: all
 		@echo "$(GREEN)Testing: $(ARGS)$(NC)"
 		./$(NAME) $(ARGS)
-		@echo "$(GREEN)make test ARGS=\"$(ARGS)$(NC)\""
 
 testd: $(NAME_DEBUG)
-		@echo "$(GREEN)Testing: $(ARGS)$(NC)"
+		@echo "$(GREEN)Testing debug: $(ARGS)$(NC)"
 		./$(NAME_DEBUG) $(ARGS)
 
 testv: valgrind
+		@echo "$(GREEN)Testing Valgrind: $(ARGS)$(NC)"
 #		--tool=memcheck
-		$(call valgrind_test,$(ARGS),"Con los args de test: $(ARGS)")
+		valgrind $(VALGR_RUN_FLAGS) ./$(NAME_VALGR)
 #		ulimit -v 160000; valgrind --leak-check=full --errors-for-leak-kinds=all  ./$(NAME_VALGR) 85 60 60 60
 	
 testh: helgrind
@@ -217,11 +217,6 @@ tests: all
 		@echo "$(GREEN)Evaluation$(NC)"
 		norminette; true;
 
-		$(call test_run,1 800 200 200,"El filósofo no debería comer y debería morir entre 800 y 810.")
-		$(call test_run,5 800 200 200,"Ningún filósofo debería morir", & sleep 60s; pkill $(NAME)) 
-		$(call test_run,5 800 200 200 7,"Ningún filósofo debería morir y la simulación debería detenerse cuando todos los filósofos hayan comido al menos 7 veces.")
-		$(call test_run,4 410 200 200,"Ningún filósofo debería morir", & sleep 60s; pkill $(NAME))
-		$(call test_run,4 310 200 100,"Un filósofo debería morir entre 310 y 320.")
 		@echo "Para mas test prueba: $(GREEN)make tester$(NC)" 
 
 tester: all
@@ -267,27 +262,6 @@ else
 		@git clone $(REPO_PATH) test
 #		@cp checker_Mac test/
 endif
-
-define run_block
-	@echo ""
-	@echo "🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
-	@echo "$(BLUE)$(3)> $(GREEN)./$(NAME) $(1)$(NC)"
-	$(call question,$(2))
-	$(4); true
-	@echo "🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧"
-endef
-
-define test_run
-	$(call run_block,$(1),$(2),testing,./$(NAME) $(1)$(3))
-endef
-
-define valgrind_test
-	$(call run_block,$(1),$(2),valgrind, valgrind $(VALGR_RUN_FLAGS) ./$(NAME_VALGR) $(1))
-endef
-
-define helgrind_test
-	$(call run_block,$(1),$(2),helgrind, valgrind --tool=helgrind ./$(NAME_VALGR) $(1))
-endef
 
 define question
 	@echo "$(ORANGE)$(1)$(NC)"

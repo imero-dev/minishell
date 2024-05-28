@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/26 13:20:34 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:16:18 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,16 @@ int	com_cd(char *arg)
 	}
 	com_pwd();
 	return (0);
+}
+
+char *get_actual_dir(void)
+{
+	char	dir[1024];
+	char *last_bslash;
+
+	getcwd(dir, sizeof(dir) - 1);
+	last_bslash = ft_strrchr(dir, '/');
+	if (last_bslash == NULL)
+		return (ft_strdup(dir));
+	return (ft_strdup(last_bslash + 1));
 }

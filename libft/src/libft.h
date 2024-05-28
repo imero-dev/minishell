@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/26 13:07:09 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:51:06 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# ifndef DEBUG_ACTIVE
-#  define DEBUG_ACTIVE 0
+# ifndef DEBUG
+#  define DEBUG 0
 # endif
 
 typedef struct s_list
@@ -140,6 +140,7 @@ char				*ft_strjoinfree2(char *s1, char *s2);
 char				*ft_strjoinglue(char const *glue, ...);
 char				*ft_strjoinmulti(char const *first, ...);
 
+void				ft_free(char **ptr);
 int					ft_arrayfree(char **array);
 int					array_len(char **array);
 void				ft_perror(char *str, int status, ...);

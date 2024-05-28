@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrayfree.c                                     :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 13:49:33 by ivromero         ###   ########.fr       */
+/*   Created: 2024/05/27 00:34:16 by ivromero          #+#    #+#             */
+/*   Updated: 2024/05/27 16:31:38 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_arrayfree(char **array)
+// Handle Ctrl+C
+void	handle_sigint(int sig)
 {
-	int	i;
-
-	i = 0;
-	while (array[i])
-		if (array[i])
-			ft_free(&array[i++]);
-	free(array);
-	array = NULL;
-	return (0);
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void ft_free(char **ptr)
+// Handle Ctrl+\ (Ctrl+Ç)
+void	handle_sigquit(int sig)
 {
-	if (*ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
+	(void)sig;
+	printf("Ctrl+\\ pressed\n");//debug
+}
+
+void exit_shell(char *msg)
+{
+	if (msg)
+		printf("%s\n", msg);
+	garbage_collector();
+	exit(0);
 }
