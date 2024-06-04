@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/28 01:22:28 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:16:42 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,65 @@ static int	word_length(const char *str)
 	return (len);
 }
 
+void	expand_env(char **word)
+{
+	char	*var_name;
+	char	*var_value;
+	char	buffer[1024]; // # define MAX_WORD_LENGTH 1024
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	ft_bzero(buffer, 1024);
+	while ((*word)[i])
+	{
+		if ((*word)[i] == '$' && (*word)[i + 1] != '\0' && (*word)[i
+			+ 1] != ' ')
+		// && (*word)[i + 1] != '"' && (*word)[i + 1] != '\'')
+		{
+			j = ++i;
+			while ((*word)[i] && ft_isalnum((*word)[i]))
+				i++;
+			if ((*word)[i] == '?')
+				i++;
+			var_name = ft_substr(*word, j, i - j);
+			if (var_name[0] == '?')
+				var_value = ft_itoa(get_data()->last_exit_status);
+			else
+				var_value = getenv(var_name);
+			if (var_value)
+			{
+				j = 0;
+				while (var_value[j])
+					buffer[k++] = var_value[j++];
+				if (var_name[0] == '?')
+					free(var_value);
+			}
+			free(var_name);
+		}
+		else
+			buffer[k++] = (*word)[i++];
+	}
+	*word = ft_strdup(buffer);
+}
+
 static char	*copy_word(const char **str_ptr, int index, char ***result_array)
 {
 	int		len;
-	//char	quote_char;
+	char	quote_char;
 
 	while (**str_ptr == ' ')
 		(*str_ptr)++;
 	len = word_length(*str_ptr);
 	if (len == 0)
 		return (NULL);
-	//quote_char = '\0';
+	quote_char = '\0';
 	if (**str_ptr == '"' || **str_ptr == '\'')
 	{
-		//quote_char = **str_ptr;
+		quote_char = **str_ptr;
 		(*str_ptr)++;
 		len -= 2;
 	}
@@ -103,9 +148,8 @@ static char	*copy_word(const char **str_ptr, int index, char ***result_array)
 		return (NULL);
 	}
 	ft_strlcpy((*result_array)[index], *str_ptr, len + 1);
-/* 	if (quote_char != '\'')
-		expand_env(&(*result_array)[index]); */
-		// split by "$VAR" and join with the value of var as glue with ft_strjoin_glue()
+	if (quote_char != '\'')
+		expand_env(&(*result_array)[index]);
 	*str_ptr += len;
 	return ((*result_array)[index]);
 }
@@ -135,6 +179,13 @@ char	**syntax_spliter(const char *str)
 			ft_arrayfree(result);
 			return (NULL);
 		}
+		if (word[0] == '\0')
+			{
+				index--;
+				word_count--;
+				free(word);
+				result[index] = NULL;
+			}
 	}
 	return (result);
 }

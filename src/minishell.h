@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 18:19:22 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:38:29 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ typedef struct s_data
 {
 	char					*line;
 	char					*last_line;
+	char					*prompt;
 	t_commandlist			*commandlist;
+	int						last_exit_status;
 }							t_data;
 
 // dirs.c
@@ -55,7 +57,7 @@ char						**syntax_spliter(const char *str);
 // signals.c
 void						handle_sigint(int sig);
 void						handle_sigquit(int sig);
-void						exit_shell(char *msg);
+void						exit_shell(char *msg, int status);
 
 // debug.c
 void						print_words(char **words);
