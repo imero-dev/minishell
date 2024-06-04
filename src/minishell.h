@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 18:19:22 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:51:13 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ typedef struct s_commandlist
 	struct s_commandlist	*next;
 }							t_commandlist;
 
+typedef struct 	s_envlist
+{
+	char 					*name;
+	char					*value;
+	struct s_envlist 		*next;
+}							t_envlist;
+
 typedef struct s_data
 {
 	char					*line;
@@ -48,6 +55,12 @@ char						*get_actual_dir(void);
 
 // echo.c
 void						ft_echo(char **args);
+
+// enviroments.c
+
+t_envlist *unset(t_envlist *env, char *env_name);
+t_envlist *export(char *name, char *value, t_envlist **env);
+t_envlist *env_initializer(char ** env);
 
 // syntax_spliter.c
 char						**syntax_spliter(const char *str);
