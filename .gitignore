@@ -54,3 +54,7 @@ dkms.conf
 # Makefile generated files
 .anime
 *.log
+minishell
+minishell_debug
+minishell_valgrind
+minishell_tester
