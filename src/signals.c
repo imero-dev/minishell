@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 00:34:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 16:31:38 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:36:45 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	handle_sigquit(int sig)
 	printf("Ctrl+\\ pressed\n");//debug
 }
 
-void exit_shell(char *msg)
+void exit_shell(char *msg, int status)
 {
 	if (msg)
 		printf("%s\n", msg);
 	garbage_collector();
-	exit(0);
+	exit(status);
 }

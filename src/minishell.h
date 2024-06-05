@@ -45,7 +45,9 @@ typedef struct s_data
 {
 	char					*line;
 	char					*last_line;
+	char					*prompt;
 	t_commandlist			*commandlist;
+	int						last_exit_status;
 }							t_data;
 
 // dirs.c
@@ -68,7 +70,7 @@ char						**syntax_spliter(const char *str);
 // signals.c
 void						handle_sigint(int sig);
 void						handle_sigquit(int sig);
-void						exit_shell(char *msg);
+void						exit_shell(char *msg, int status);
 
 // debug.c
 void						print_words(char **words);
