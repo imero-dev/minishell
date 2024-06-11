@@ -6,32 +6,55 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:14 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/04 16:53:40 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/11 18:20:21 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-t_envlist *unset(t_envlist *env, char *env_name)
+
+void free_envlist(t_envlist *head) 
 {
-	t_envlist *header;
+	t_envlist *tmp;
+
+	while (head != NULL) 
+	{
+		tmp = head;
+		head = head->next;
+		if (tmp->name != NULL) {
+			free(tmp->name);
+		}
+		if (tmp->value != NULL) {
+			free(tmp->value);
+		}
+		free(tmp);
+	}
+}
+
+t_envlist *unset(t_envlist *env, char **words)
+{
+	t_envlist *tmp;
+	int i;
 	
-	header = env;
+	i = 0;
 	if(!env)
 		perror("No env aviable");
-	while (env)
+	while (words[i])
 	{
-		if (ft_strcmp(env->next->name,env_name) == 0)
+		tmp = env;
+		while (tmp)
 		{
-			free(env->next->name);
-			free(env->next->value);
-			free(env->next);
-			env->next = env->next->next;
+			if (ft_strcmp(tmp->name, words[i]) == 0)
+			{
+					tmp->export = false;
+					tmp->value = "\n";
+					break;
+			}
+			tmp = tmp->next;	
 		}
-		else
-			env = env->next;	
+		i++;
 	}
-	if(env == NULL)
-		perror("eviroment variable not found");
-	return(header);
+	return(env);
 }
+
+

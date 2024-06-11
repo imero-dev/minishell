@@ -6,23 +6,25 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:05 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/04 16:48:57 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/11 17:41:55 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 char *env_name(char *env)
 {
 	char *name;
 	int i;
 	
-	i=0;
+	i = 0;
 	if(!env)
 		return NULL;
 	while (env[i]!= '=')
 		i++;
 	name = ft_strldup(env,i);
+	if (!name)
+		return NULL;
 	return name;
 }
 char *env_value(char *env)
@@ -36,43 +38,50 @@ char *env_value(char *env)
 	while (env[i]!= '=')
 		i++;
 	value = ft_strdup(&env[i + 1]);
+	if (!value)
+		return NULL;
 	return value;
 }
-static t_envlist *ft_new_env_lst(char *env)
+t_envlist *new_env(char *name, char *value,bool export)
 {
 	t_envlist	*node;
 	
 	node = (t_envlist *)malloc(sizeof(t_envlist));
 	if (!node)
 		return (NULL);
-	node->name = env_name(env);
-	node->value = env_value(env);
+	node->name = name;
+	node->value = value;
+	node->export = export;
 	node->next = NULL;
 	return (node);
 }
 
-static void ft_add_env_node(t_envlist **lst, t_envlist *new)
-{
-	if (*lst)
-		ft_add_env_node(&(*lst)->next, new);
-	else
-		*lst = new;
-}
-
 t_envlist *env_initializer(char ** env)
 {
-	t_envlist *enviroments_vars;
+	t_envlist *env_vars;
 	int i;
 	
 	i = 0;
 	while (env[i])
 	{
 		if (i == 0)
-			enviroments_vars = ft_new_env_lst(env[i]);
+			env_vars = new_env(env_name(env[i]),env_value(env[i]),true);
 		else
-			ft_add_env_node(&enviroments_vars,ft_new_env_lst(env[i]));
+			add_env(&env_vars,new_env(env_name(env[i]),env_value(env[i]),true));
 		i++;
 	}
-	return(enviroments_vars);
+	return(env_vars);
+}
+
+void env_writer(t_envlist * env_var)
+{
+	if (!env_var)
+		perror("env not found\n");
+	while (env_var && env_var->name)
+	{
+		if(env_var->export)
+			printf("%s=%s\n",env_var->name,env_var->value);
+		env_var = env_var->next;
+	}
 }
 

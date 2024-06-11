@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/04 16:51:13 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/11 18:21:38 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct 	s_envlist
 {
 	char 					*name;
 	char					*value;
+	bool					export;
 	struct s_envlist 		*next;
 }							t_envlist;
 
@@ -59,11 +60,15 @@ char						*get_actual_dir(void);
 void						ft_echo(char **args);
 
 // enviroments.c
-
-t_envlist *unset(t_envlist *env, char *env_name);
-t_envlist *export(char *name, char *value, t_envlist **env);
-t_envlist *env_initializer(char ** env);
-
+char 						*env_name(char *env);
+char 						*env_value(char *env);
+t_envlist 					*new_env(char *name, char *value, bool export);
+void 						add_env(t_envlist **lst, t_envlist *new);
+t_envlist 					*env_initializer(char ** env);
+void 						env_writer(t_envlist * env);
+t_envlist 					*unset(t_envlist *env, char **words);
+t_envlist					*export(t_envlist	*env_vars, char **words);
+void 						free_envlist(t_envlist *head);
 // syntax_spliter.c
 char						**syntax_spliter(const char *str);
 
