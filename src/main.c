@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/11 18:22:28 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/13 17:19:46 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	interpreter(char *line, t_envlist *env_vars)
 		export(env_vars,words);
 	else if (ft_strcmp(words[0], "unset") == 0)
 		unset(env_vars,words);
+	else if (ft_strnstr(words[0], "<<",ft_strlen(*words)))
+		heredoc(words);
 	else
 	{
 		perror(ft_strjoin(words[0], ": command not found")); //freeeeeee

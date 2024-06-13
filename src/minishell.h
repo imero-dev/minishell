@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/11 18:21:38 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/13 17:18:39 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 # include <signal.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+
 
 typedef struct s_commandlist
 {
@@ -76,6 +80,9 @@ char						**syntax_spliter(const char *str);
 void						handle_sigint(int sig);
 void						handle_sigquit(int sig);
 void						exit_shell(char *msg, int status);
+
+// redirections.c
+void 						heredoc(char **words);
 
 // debug.c
 void						print_words(char **words);
