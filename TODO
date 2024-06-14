@@ -3,37 +3,20 @@ https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
 
 ENV
 // FIXME  No añadir de nuevo una variable de entorno que ya existe en el sistema.
-// TODO  unset deberia borral el nodo
+// ?  unset deberia borral el nodo
 
 
 
 
 
 // TODO
-Exit codes de export deberia ser 1 si hay error:
-Test  26: ❌ export A- 
-mini exit code = 0
-bash exit code = 1
-
-Test  30: ❌ export HELLO-=123 
-mini exit code = 0
-bash exit code = 1
-mini error = ()
-bash error = ( not a valid identifier)
-
-Test  31: ❌ export = 
-mini exit code = 0
-bash exit code = 1
-mini error = ()
-bash error = ( not a valid identifier)
-
-Test  32: ❌ export 123 
-mini exit code = 0
-bash exit code = 1
-mini error = ()
-bash error = ( not a valid identifier)
+- Make dentro de minishell falla
+- minishel dentro de minishell casca al salir por doble free
+- pasar todos los free a ft_free
 
 
+
+// WARN hacer frees antes de empezar PIPEs
 
 
 REF Plantilla
