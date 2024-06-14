@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 03:18:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:17:38 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,17 @@ int run_command(t_commandlist *command)
 
 	if (!command->command)
 	{
-		perror("Command not found: No such file or directory");
+		perror("Command not found\n");
+		perror("Command not found\n");
 		return (127);
 	}
-	//printf("Running command: %s\n", command->command);
+	printf("Running command: %s\n", command->command);
 	pid = fork();
     if (pid == 0)
     {
+		printf("fork >>>>\n");
         execve(command->command, command->args, NULL);
+		printf("<<<< fork\n");
         exit(1); // ? como recupero la salida del proceso hijo ¿este da igual?
     }
 	else

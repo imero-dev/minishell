@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   btin_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:14 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/13 19:42:12 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:33:35 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,17 @@ void	free_envlist(t_envlist *head)
 	}
 }
 
-t_envlist	*unset(t_envlist *env, char **words)
+int	unset(t_envlist *env, char **words)
 {
 	t_envlist	*tmp;
 	int			i;
 
 	i = 0;
 	if (!env)
+	{
 		perror("No env aviable");
+		return(1);
+	}
 	while (words[i])
 	{
 		tmp = env;
@@ -55,5 +58,5 @@ t_envlist	*unset(t_envlist *env, char **words)
 		}
 		i++;
 	}
-	return (env);
+	return (0);
 }

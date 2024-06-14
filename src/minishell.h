@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 03:10:56 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:33:50 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,22 @@ typedef struct s_data
 
 // dirs.c
 int							com_pwd(void);
-int							com_cd(char *arg);
+int							com_cd(char **args);
 char						*get_actual_dir(void);
 
 // echo.c
-void						com_echo(char **args);
+int						com_echo(char **args);
 
 // enviroments.c
+int 						add_env(t_envlist **lst, t_envlist *new);
+int 						env_writer(t_envlist * env);
+int		 					unset(t_envlist *env, char **words);
+int							export(t_envlist	*env_vars, char **words);
+
 char 						*env_name(char *env);
 char 						*env_value(char *env);
 t_envlist 					*new_env(char *name, char *value, bool export);
-void 						add_env(t_envlist **lst, t_envlist *new);
 t_envlist 					*env_initializer(char ** env);
-void 						env_writer(t_envlist * env);
-t_envlist 					*unset(t_envlist *env, char **words);
-t_envlist					*export(t_envlist	*env_vars, char **words);
 void 						free_envlist(t_envlist *head);
 char 						*env_get(char *name);
 

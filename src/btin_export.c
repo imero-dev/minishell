@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   btin_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:10 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/13 19:41:30 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:33:41 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_env(t_envlist **lst, t_envlist *new)
+int	add_env(t_envlist **lst, t_envlist *new)
 {
 	if (*lst)
 		add_env(&(*lst)->next, new);
 	else
 		*lst = new;
+	return (0);
 }
 
-t_envlist	*export(t_envlist *env_vars, char **words)
+int	export(t_envlist *env_vars, char **words)
 {
 	t_envlist	*tmp;
 	int			i;
@@ -40,5 +41,5 @@ t_envlist	*export(t_envlist *env_vars, char **words)
 		}
 		i++;
 	}
-	return (env_vars);
+	return (0);
 }

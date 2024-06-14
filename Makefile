@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/06/04 01:53:36 by ivromero         ###   ########.fr        #
+#    Updated: 2024/06/14 13:59:23 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,13 +121,13 @@ $(NAME): $(OBJS) $(H_FILES)
 
 
 clean:
-		@$(RM) $(OBJS) $(OBJSBONUS) $(OBJS_DEBUG) $(OBJS_VALGR) .init
+		@$(RM) $(OBJS) $(OBJSBONUS) $(OBJS_DEBUG) $(OBJS_VALGR)
 		@$(RM) -rf $(OBJ_PATH) $(OBJDBG_PATH) $(OBJVLG_PATH)
 		@make -C $(LIBFT_PATH) clean 
 		@echo "$(GREEN)clean done:$(NC) $(NAME)"
 
 fclean:	clean
-		@$(RM) $(NAME) $(BONUS_NAME) $(NAME_DEBUG) $(BONUS_NAME)_debug $(NAME_VALGR) .init
+		@$(RM) $(NAME) $(BONUS_NAME) $(NAME_DEBUG) $(BONUS_NAME)_debug $(NAME_VALGR)
 		@$(RM) -rf *.dSYM
 		@make -C $(LIBFT_PATH) fclean
 		@echo "$(GREEN)fclean done:$(NC) $(NAME)"

@@ -9,15 +9,29 @@ ENV
 
 
 
-// TODO CAMBIAR NOMBRE A LOS SRC
-BTIN_ (Builtings)
-COMM_ (Commands)
-ENVI_ (Enviroment) ¿¿¿??? separar envm export y unset de builtings
+// TODO
+Exit codes de export deberia ser 1 si hay error:
+Test  26: ❌ export A- 
+mini exit code = 0
+bash exit code = 1
 
+Test  30: ❌ export HELLO-=123 
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
 
+Test  31: ❌ export = 
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
 
-
-
+Test  32: ❌ export 123 
+mini exit code = 0
+bash exit code = 1
+mini error = ()
+bash error = ( not a valid identifier)
 
 
 

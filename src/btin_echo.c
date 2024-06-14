@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   btin_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:59:49 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/13 19:30:08 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:28:27 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	com_echo(char **args)
+int	com_echo(char **args)
 {
 	int		i;
 	bool	n_flag;
@@ -36,4 +36,5 @@ void	com_echo(char **args)
 	}
 	if (!n_flag)
 		printf("\n");
+	return(0);
 }
