@@ -6,13 +6,13 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 13:49:33 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 01:26:52 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_arrayfree(char **array)
+int	ft_array_free(char **array)
 {
 	int	i;
 

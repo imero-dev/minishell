@@ -6,13 +6,13 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 12:59:49 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/26 13:40:43 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:30:08 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **args)
+void	com_echo(char **args)
 {
 	int		i;
 	bool	n_flag;

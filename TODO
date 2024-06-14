@@ -1,0 +1,39 @@
+
+https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
+
+ENV
+// FIXME  No añadir de nuevo una variable de entorno que ya existe en el sistema.
+// TODO  unset deberia borral el nodo
+
+
+
+
+
+// TODO CAMBIAR NOMBRE A LOS SRC
+BTIN_ (Builtings)
+COMM_ (Commands)
+ENVI_ (Enviroment) ¿¿¿??? separar envm export y unset de builtings
+
+
+
+
+
+
+
+
+
+REF Plantilla
+
+// FIXME cosaas
+
+WARN: This is a warning, be aware
+
+TODO: At some point this should be done
+
+FIXME: This is clearly a bug, please fix
+
+REVIEW: Please eyeball this
+
+HACK: Be warned this is indeed a hack
+
+REF: https://github.com/jonasbn/til/tree/master/vscode/todo_tree_plugin.md

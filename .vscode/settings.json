@@ -3,6 +3,85 @@
         "stdio.h": "c",
         "readline.h": "c",
         "stdlib.h": "c",
-        "minishell.h": "c"
-    }
+        "minishell.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c"
+    },
+    "todo-tree.tree.showBadges": false,
+    "todo-tree.tree.autoRefresh": true,
+    "todo-tree.highlights.customHighlight": {
+        "WARN": {
+            "foreground": "white",
+            "background": "red",
+            "iconColour": "red",
+            "icon": "alert",
+            "type": "text"
+        },
+        "TODO": {
+            "foreground": "black",
+            "background": "green",
+            "iconColour": "green",
+            "icon": "check",
+            "type": "text"
+        },
+        "FIXME": {
+            "foreground": "black",
+            "background": "red",
+            "iconColour": "red",
+            "icon": "bug"
+        },
+        "?": {
+            "foreground": "black",
+            "background": "orange",
+            "iconColour": "orange",
+            "icon": "question"
+        },
+        "REVIEW": {
+            "foreground": "black",
+            "background": "cyan",
+            "iconColour": "lightblue",
+            "icon": "eye"
+        },
+        "HACK": {
+            "foreground": "black",
+            "background": "#FFA500",
+            "iconColour": "orange",
+            "icon": "alert"
+        },
+        "REF": {
+            "foreground": "black",
+            "background": "grey",
+            "iconColour": "grey",
+            "icon": "link",
+            "type": "tag"
+        },
+        " ": {
+            "foreground": "black",
+            "background": "grey",
+            "iconColour": "grey",
+            "icon": "link",
+            "type": "tag"
+        }
+    },
+    "todo-tree.highlights.defaultHighlight": {
+        "type": "text-and-comment"
+    },
+
+    "todo-tree.general.tagGroups": {
+        "FIXME": [
+            "FIXME",
+            "FIXIT",
+            "FIX",
+        ]
+    },
+    "todo-tree.general.tags": [
+        "TODO",
+        "FIXME",
+        "REVIEW",
+        "?",
+        "HACK",
+        "REF",
+        "WARN"
+    ]
 }

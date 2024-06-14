@@ -58,3 +58,5 @@ minishell
 minishell_debug
 minishell_valgrind
 minishell_tester
+
+.heredoc

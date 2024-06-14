@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 18:16:18 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/13 20:56:39 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	com_cd(char *arg)
 {
 	if (arg == NULL || arg[0] == '\0' || arg[0] == '~')
 	{
-		if (chdir(getenv("HOME")) == -1)// test evaluation point
+		if (chdir(getenv("HOME")) == -1) //FIXME use env_get  // test evaluation point
 		{
 			printf("cd: %s: No such file or directory\n", arg);
 			return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/04 16:59:21 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/14 01:26:26 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ char				*ft_strjoinglue(char const *glue, ...);
 char				*ft_strjoinmulti(char const *first, ...);
 
 void				ft_free(char **ptr);
-int					ft_arrayfree(char **array);
+int					ft_array_free(char **array);
 int					array_len(char **array);
 void				ft_perror(char *str, int status, ...);
 int					ft_printf_debug(char const *format, int debug, ...);
