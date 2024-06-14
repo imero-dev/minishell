@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dirs.c                                             :+:      :+:    :+:   */
+/*   btin_dirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/05/27 18:16:18 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:36:42 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,29 @@ int	com_pwd(void)
 /*
 ** Change to the directory ARG.
 */
-int	com_cd(char *arg)
+int	com_cd(char **args) // TODO simplificar en una sola llamada a chdir
 {
-	if (arg == NULL || arg[0] == '\0' || arg[0] == '~')
+	if (args[2])
 	{
-		if (chdir(getenv("HOME")) == -1)// test evaluation point
-		{
-			printf("cd: %s: No such file or directory\n", arg);
-			return (1);
-		}
-		com_pwd();
-		return (0);
-	}
-	if (chdir(arg) == -1)
-	{
-		printf("cd: %s: No such file or directory\n", arg);
+		perror(" too many arguments\n");
 		return (1);
 	}
-	com_pwd();
+	if (args[1] == NULL || args[1][0] == '\0' || args[1][0] == '~')
+	{
+		if (chdir(env_get("HOME")) == -1) //FIXME use env_get  // test evaluation point
+		{
+			//printf("cd: %s: No such file or directory\n", args[1]);
+			perror("no such file or directory\n");
+			return (1);
+		}
+		return (0);
+	}
+	if (chdir(args[1]) == -1)
+	{
+		perror("no such file or directory\n");
+		//printf("cd: %s: No such file or directory\n", args[1]);
+		return (1);
+	}
 	return (0);
 }
 

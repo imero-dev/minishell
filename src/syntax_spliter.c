@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/04 15:16:42 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 02:44:57 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	count_words(const char *str)
 	return (word_count);
 }
 
-static int	word_length(const char *str)
+static int	word_length(const char *str)// TODO recibir quote_char y devolver hasta la siguiente quote_char sino -1 y ¿HEREDOC?
 {
 	int		len;
 	bool	in_quotes;
@@ -68,7 +68,7 @@ static int	word_length(const char *str)
 	{
 		if (*str == quote_char && in_quotes)
 		{
-			in_quotes = false;
+			in_quotes = false; // ???
 			len++;
 			str++; // sobra
 			break ;
@@ -83,7 +83,7 @@ void	expand_env(char **word)
 {
 	char	*var_name;
 	char	*var_value;
-	char	buffer[1024]; // # define MAX_WORD_LENGTH 1024
+	char	buffer[1024]; //  TODO # define MAX_WORD_LENGTH 1024
 	int		i;
 	int		j;
 	int		k;
@@ -107,14 +107,14 @@ void	expand_env(char **word)
 			if (var_name[0] == '?')
 				var_value = ft_itoa(get_data()->last_exit_status);
 			else
-				var_value = getenv(var_name);
+				var_value = env_get(var_name);
 			if (var_value)
 			{
 				j = 0;
 				while (var_value[j])
 					buffer[k++] = var_value[j++];
-				if (var_name[0] == '?')
-					free(var_value);
+				//if (var_name[0] == '?') //not with env_get
+					//free(var_value); 
 			}
 			free(var_name);
 		}
@@ -124,18 +124,18 @@ void	expand_env(char **word)
 	*word = ft_strdup(buffer);
 }
 
-static char	*copy_word(const char **str_ptr, int index, char ***result_array)
+static char	*copy_word(const char **str_ptr, int index, char ***result_array)// FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
 {
 	int		len;
 	char	quote_char;
 
-	while (**str_ptr == ' ')
+	while (**str_ptr == ' ') 
 		(*str_ptr)++;
 	len = word_length(*str_ptr);
 	if (len == 0)
 		return (NULL);
 	quote_char = '\0';
-	if (**str_ptr == '"' || **str_ptr == '\'')
+	if (**str_ptr == '"' || **str_ptr == '\'')// FIXME las comillas pueden estar en cualquier parte del string
 	{
 		quote_char = **str_ptr;
 		(*str_ptr)++;
@@ -144,7 +144,7 @@ static char	*copy_word(const char **str_ptr, int index, char ***result_array)
 	(*result_array)[index] = (char *)ft_calloc(len + 1, sizeof(char));
 	if (!(*result_array)[index])
 	{
-		ft_arrayfree(*result_array);
+		ft_array_free(*result_array);
 		return (NULL);
 	}
 	ft_strlcpy((*result_array)[index], *str_ptr, len + 1);
@@ -176,7 +176,7 @@ char	**syntax_spliter(const char *str)
 		word = copy_word(&str, index++, &result);
 		if (word == NULL)
 		{
-			ft_arrayfree(result);
+			ft_array_free(result);
 			return (NULL);
 		}
 		if (word[0] == '\0')
