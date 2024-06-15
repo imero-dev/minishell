@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 16:17:38 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:33:39 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int run_command(t_commandlist *command)
 
 	if (!command->command)
 	{
-		perror("Command not found\n");
 		perror("Command not found\n");
 		return (127);
 	}

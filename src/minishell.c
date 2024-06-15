@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 16:26:17 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:30:35 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	interpreter(char *line, t_envlist *env_vars)
 	else if (ft_strcmp(words[0], "env") == 0)
 		get_data()->last_exit_status = env_writer(env_vars);
 	else if (ft_strchr(words[0], '='))
-		get_data()->last_exit_status = add_env(&env_vars, new_env(env_name(words[0]), env_value(words[0]),
+		get_data()->last_exit_status = add_env(&env_vars, new_env(get_name(words[0]), get_value(words[0]),
 				false));
 	else if (ft_strcmp(words[0], "export") == 0)
 		get_data()->last_exit_status = export(env_vars, words);

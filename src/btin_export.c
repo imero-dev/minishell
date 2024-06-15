@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:10 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/14 16:33:41 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:23:52 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	export(t_envlist *env_vars, char **words)
 	while (words[i])
 	{
 		if (ft_strchr(words[i], '='))
-			add_env(&env_vars, new_env(env_name(words[i]), env_value(words[i]),
+			add_env(&env_vars, new_env(get_name(words[i]), get_value(words[i]),
 					true));
 		tmp = env_vars;
 		while (tmp)

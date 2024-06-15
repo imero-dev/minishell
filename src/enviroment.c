@@ -6,38 +6,38 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:05 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/14 16:30:37 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:23:53 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*env_name(char *env)
+char	*get_name(char *input)
 {
 	char	*name;
 	int		i;
 
 	i = 0;
-	if (!env)
+	if (!input)
 		return (NULL);
-	while (env[i] != '=')
+	while (input[i] != '=')
 		i++;
-	name = ft_strldup(env, i);
+	name = ft_strldup(input, i);
 	if (!name)
 		return (NULL);
 	return (name);
 }
-char	*env_value(char *env)
+char	*get_value(char *input)
 {
 	char	*value;
 	int		i;
 
 	i = 0;
-	if (!env)
+	if (!input)
 		return (NULL);
-	while (env[i] != '=')
+	while (input[i] != '=')
 		i++;
-	value = ft_strdup(&env[i + 1]);
+	value = ft_strdup(&input[i + 1]);
 	if (!value)
 		return (NULL);
 	return (value);
@@ -65,9 +65,9 @@ t_envlist	*env_initializer(char **env)
 	while (env[i])
 	{
 		if (i == 0)
-			env_vars = new_env(env_name(env[i]), env_value(env[i]), true);
+			env_vars = new_env(get_name(env[i]), get_value(env[i]), true);
 		else
-			add_env(&env_vars, new_env(env_name(env[i]), env_value(env[i]),
+			add_env(&env_vars, new_env(get_name(env[i]), get_value(env[i]),
 					true));
 		i++;
 	}
