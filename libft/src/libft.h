@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 01:26:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:42:48 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_list
 
 // <ctype.h>
 int					ft_isalnum(int c);
+int 				ft_stralnum(char *str);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);

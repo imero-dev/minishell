@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 17:27:05 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:53:21 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int							add_env(t_envlist **lst, t_envlist *new);
 int							env_writer(t_envlist *env);
 int							unset(t_envlist *env, char **words);
 int							export(t_envlist *env_vars, char **words);
+int 						import(t_envlist *env_vars, char **words);
 
 char						*get_name(char *env);
 char						*get_value(char *env);

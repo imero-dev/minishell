@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   btin_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:14 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/14 16:33:35 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:26:40 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,41 @@ void	free_envlist(t_envlist *head)
 	}
 }
 
+static int delete_node(t_envlist *to_delete)
+{
+	if(!to_delete)
+		return (0);
+	free(to_delete->name);
+	free(to_delete->value);
+	free(to_delete);
+	return(0);
+}
+
 int	unset(t_envlist *env, char **words)
 {
 	t_envlist	*tmp;
+	t_envlist	*to_delete;
 	int			i;
 
-	i = 0;
+	i = -1;
 	if (!env)
 	{
 		perror("No env aviable");
 		return(1);
 	}
-	while (words[i])
+	while (words[++i])
 	{
 		tmp = env;
 		while (tmp)
 		{
-			if (ft_strcmp(tmp->name, words[i]) == 0)
-			{
-				tmp->export = false;
-				tmp->value = "\n";
-				break ;
-			}
+			if (tmp->next && ft_strcmp(tmp->next->name, words[i]) == 0)
+				{
+					to_delete = tmp->next;
+					tmp->next = tmp->next->next;
+					delete_node(to_delete);
+				}
 			tmp = tmp->next;
 		}
-		i++;
 	}
 	return (0);
 }

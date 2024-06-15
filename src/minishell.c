@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 17:30:35 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:54:10 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	garbage_collector(void)
 	ft_free(&data->prompt);
 }
 
-void	interpreter(char *line, t_envlist *env_vars)
+void	interpreter(char *line)
 {
 	char	**words;
 
@@ -55,7 +55,7 @@ void	interpreter(char *line, t_envlist *env_vars)
 		else
 			exit_status = ft_atoi(words[1]);
 		ft_array_free(words);
-		free_envlist(env_vars);
+		free_envlist(get_data()->env_vars);
 		exit_shell("exit", exit_status);
 	}
 	if (ft_strcmp(words[0], "pwd") == 0)
@@ -65,14 +65,13 @@ void	interpreter(char *line, t_envlist *env_vars)
 	else if (ft_strcmp(words[0], "echo") == 0)
 		get_data()->last_exit_status = com_echo(words);
 	else if (ft_strcmp(words[0], "env") == 0)
-		get_data()->last_exit_status = env_writer(env_vars);
+		get_data()->last_exit_status = env_writer(get_data()->env_vars);
 	else if (ft_strchr(words[0], '='))
-		get_data()->last_exit_status = add_env(&env_vars, new_env(get_name(words[0]), get_value(words[0]),
-				false));
+		get_data()->last_exit_status = import(get_data()->env_vars,words);
 	else if (ft_strcmp(words[0], "export") == 0)
-		get_data()->last_exit_status = export(env_vars, words);
+		get_data()->last_exit_status = export(get_data()->env_vars, words);
 	else if (ft_strcmp(words[0], "unset") == 0)
-		get_data()->last_exit_status = unset(env_vars, words);
+		get_data()->last_exit_status = unset(get_data()->env_vars, words);
 	else if (ft_strnstr(words[0], "<<", ft_strlen(*words)))
 		heredoc(words);
 	else
@@ -115,7 +114,7 @@ int	main(int argc, char **argv, char **enviroment)
 		// printf("%c\n", data->line[0]);
 		if (ft_strcmp(data->line, data->last_line) != 0)
 			add_history(data->line);
-		interpreter(data->line, data->env_vars);
+		interpreter(data->line);
 		ft_free(&data->last_line);
 		data->last_line = data->line;
 	}
