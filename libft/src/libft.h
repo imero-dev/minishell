@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 01:26:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:08:08 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ char				*get_next_line_no_nl(int fd);
 
 int					ft_printf(const char *str, ...);
 
-void				ft_putcharcnt(char c, int *count);
-void				ft_putstrcnt(char *s, int *count);
-void				ft_putnbrcnt(long n, int *count);
-void				ft_puthexcnt(unsigned long int n, int ucase, int prefix,
-						int *count);
+int				ft_putcharcnt(char c, int fd);
+int				ft_putstrcnt(char *s, int fd);
+int				ft_putnbrcnt(long n, int fd);
+int				ft_puthexcnt(unsigned long int n, int ucase, int prefix,
+						int fd);
 
 /*
 **
@@ -144,11 +144,13 @@ char				*ft_strjoinmulti(char const *first, ...);
 void				ft_free(char **ptr);
 int					ft_array_free(char **array);
 int					array_len(char **array);
-void				ft_perror(char *str, int status, ...);
+void				ft_perror(char *str, int opt);
+void				ft_perror_exit(char *str, int status, ...);
 int					ft_printf_debug(char const *format, int debug, ...);
 
 int					ft_isspace(int c);
 
+long long			ft_atoll(const char *str);
 long				ft_atol(const char *str);
 
 int					ft_strcmp(const char *s1, const char *s2);

@@ -2,14 +2,6 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(gdb) Attach",
-			"type": "cppdbg",
-			"request": "attach",
-			"program": "enter program name, for example ${workspaceFolder}/a.out",
-			"MIMode": "gdb"
-		},
-
-		{
 			"name": "(gdb) Debug",
 			"type": "cppdbg",
 			"request": "launch",
@@ -47,8 +39,13 @@
 			"externalConsole": false,
 			"MIMode": "gdb",
 			"preLaunchTask": "make debug_bonus"
+		},
+		{
+			"name": "(gdb) Attach",
+			"type": "cppdbg",
+			"request": "attach",
+			"program": "enter program name, for example ${workspaceFolder}/a.out",
+			"MIMode": "gdb"
 		}
-		
-
 	]
 }

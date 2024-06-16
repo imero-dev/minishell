@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:18:59 by ivromero          #+#    #+#             */
-/*   Updated: 2024/04/08 04:06:21 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:08:44 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long	ft_atol(const char *str)
+long long	ft_atoll(const char *str)
 {
-	int		i;
-	int		sign;
-	long	nb;
+	int			i;
+	int			sign;
+	long long	nb;
 
 	sign = 1;
 	nb = 0;
@@ -29,6 +29,11 @@ long	ft_atol(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		nb = (nb * 10) + (str[i++] - '0');
 	return (nb * sign);
+}
+
+long	ft_atol(const char *str)
+{
+	return (((long)ft_atoll(str)));
 }
 
 int	ft_atoi(const char *str)

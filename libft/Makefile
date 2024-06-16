@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/21 13:25:53 by ivromero          #+#    #+#              #
-#    Updated: 2024/06/14 01:27:59 by ivromero         ###   ########.fr        #
+#    Updated: 2024/06/15 03:56:48 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ NC			= \033[0m
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 		@mkdir -p $(OBJ_PATH)
-		@echo "\e[u🟧\e[s"
+		@echo "\e[u🟧\e[s\n"
 		$(CC) $(CFLAGS) -o $@ -c $<
 
 all:	init 

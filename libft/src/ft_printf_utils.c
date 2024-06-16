@@ -3,60 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 00:09:31 by ivromero          #+#    #+#             */
-/*   Updated: 2024/01/17 17:08:14 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:13:58 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putcharcnt(char c, int *count)
+int	ft_putcharcnt(char c, int fd)
 {
-	write(1, &c, 1);
-	*count += 1;
+	write(fd, &c, 1);
+	return (1);
 }
 
-void	ft_putstrcnt(char *s, int *count)
+int	ft_putstrcnt(char *s, int fd )
 {
+	int count;
+
+	count = 0;
 	if (s)
 		while (*s)
-			ft_putcharcnt(*s++, count);
+			count += ft_putcharcnt(*s++, fd);
 	else
-		ft_putstrcnt("(null)", count);
+		count += ft_putstrcnt("(null)", fd);
+	return (count);
 }
 
-void	ft_putnbrcnt(long n, int *count)
+int	ft_putnbrcnt(long n, int fd)
 {
+	int count;
+
+	count = 0;
 	if (n < 0)
-		ft_putcharcnt('-', count);
+		count += ft_putcharcnt('-', fd);
 	if (n < 0)
 		n = -n;
 	if (n >= 10)
-		ft_putnbrcnt(n / 10, count);
+		count += ft_putnbrcnt(n / 10, fd);
 	if (n >= 10)
-		ft_putnbrcnt(n % 10, count);
+		count += ft_putnbrcnt(n % 10, fd);
 	else
-		ft_putcharcnt(n + '0', count);
+		count += ft_putcharcnt(n + '0', fd);
+	return (count);
 }
 
-void	ft_puthexcnt(unsigned long int n, int ucase, int prefix,
-		int *count)
+int	ft_puthexcnt(unsigned long int n, int ucase, int prefix,
+		int fd )
 {
 	char	*str;
 	char	*str_u;
+	int		count;
 
+	count = 0;
 	str = "0123456789abcdef";
 	str_u = "0123456789ABCDEF";
 	if (prefix)
-		ft_putstrcnt("0x", count);
+		count += ft_putstrcnt("0x", fd);
 	if (n >= 16)
-		ft_puthexcnt(n / 16, ucase, 0, count);
+		count += ft_puthexcnt(n / 16, ucase, 0, fd);
 	if (n >= 16)
-		ft_puthexcnt(n % 16, ucase, 0, count);
+		count += ft_puthexcnt(n % 16, ucase, 0, fd);
 	else if (ucase)
-		ft_putcharcnt(str_u[n], count);
+		count += ft_putcharcnt(str_u[n], fd);
 	else
-		ft_putcharcnt(str[n], count);
+		count += ft_putcharcnt(str[n], fd);
+	return (count);
 }

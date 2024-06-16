@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/06/14 13:59:23 by ivromero         ###   ########.fr        #
+#    Updated: 2024/06/16 01:31:54 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,25 +81,31 @@ GREEN		= \e[0;32m
 BLUE		= \e[1;34m\e[4m
 NC			= \e[0m
 
+COMPILED	= 0
+
 ##########################################################################################
 ##########################################################################################
 
-all:	 .init 
-		@make $(NAME)
+all:	 
+		@$(MAKE) -C $(LIBFT_PATH) all
+		@$(MAKE) .init $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 		@mkdir -p $(OBJ_PATH)
 		@echo "\e[u🟧\e[s"
+#		@$(foreach i,$(shell seq 1 $(COMPILED)), \
+		echo "";)
 		$(CC) $(CFLAGS) -o $@ -c $<
+		$(eval COMPILED = $(shell echo $$(($(COMPILED) + 1)) ))
 #		@echo -n 🟧
 
-$(NAME): $(OBJS) $(H_FILES) 
-		@make -C $(LIBFT_PATH) all
+$(NAME): $(OBJS) $(H_FILES) $(LIBFT_PATH)libft.a
 #		@if [ ! -f "readline-8.2/readline.h" ]; then wget ftp://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz; tar -xvzf readline-8.2.tar.gz; fi;
+		@echo "$(GREEN)$(COMPILED) .obj compiled$(NC)"
 		@echo "$(ORANGE)Linking:$(NC) $@"
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS_FLAGS)
 		@echo "$(GREEN)Finished:$(NC) $@"
-#		@make  .anime
+#		@$(MAKE)  .anime
 
 .init: 
 #		@echo ""
@@ -109,12 +115,15 @@ $(NAME): $(OBJS) $(H_FILES)
 			echo -n "⬛"; \
 		done
 		@echo "⬛"
-#		@touch .init
+		
+#		@for i in $(OBJS); do \
+#			echo ""; \
+#		done
 
 #bonus: $(BONUS_NAME)
 
 #$(BONUS_NAME): $(OBJSBONUS)
-##		@make -C $(LIBFT_PATH) > /dev/null
+##		@$(MAKE) -C $(LIBFT_PATH) > /dev/null
 #		@$(CC) $(DEBUG_FLAGS) $(CFLAGS) $(OBJSBONUS)-o $(BONUS_NAME)
 #		@echo "$(GREEN)Compilación terminada:$(NC) $@"
 #		@#make info
@@ -123,13 +132,13 @@ $(NAME): $(OBJS) $(H_FILES)
 clean:
 		@$(RM) $(OBJS) $(OBJSBONUS) $(OBJS_DEBUG) $(OBJS_VALGR)
 		@$(RM) -rf $(OBJ_PATH) $(OBJDBG_PATH) $(OBJVLG_PATH)
-		@make -C $(LIBFT_PATH) clean 
+		@$(MAKE) -C $(LIBFT_PATH) clean 
 		@echo "$(GREEN)clean done:$(NC) $(NAME)"
 
 fclean:	clean
 		@$(RM) $(NAME) $(BONUS_NAME) $(NAME_DEBUG) $(BONUS_NAME)_debug $(NAME_VALGR)
 		@$(RM) -rf *.dSYM
-		@make -C $(LIBFT_PATH) fclean
+		@$(MAKE) -C $(LIBFT_PATH) fclean
 		@echo "$(GREEN)fclean done:$(NC) $(NAME)"
 
 re:		fclean all
@@ -169,7 +178,7 @@ debug:	$(NAME_DEBUG)
 
 $(NAME_DEBUG): $(OBJS_DEBUG)
 		@echo "flags: $(DEBUG_FLAGS)"
-		@make -C $(LIBFT_PATH) debug DEBUG_FLAGS="$(DEBUG_FLAGS)"
+		@$(MAKE) -C $(LIBFT_PATH) debug DEBUG_FLAGS="$(DEBUG_FLAGS)"
 		$(CC) $(DEBUG_FLAGS) $(OBJS_DEBUG) -o $(NAME_DEBUG) $(LIBS_FLAGS)_debug
 		@echo "Compilación terminada: $@"
 		
@@ -186,7 +195,7 @@ helgrind:
 
 $(NAME_VALGR): clean_valgr $(OBJS_VALGR)
 		@echo "flags: $(VALGRIND_FLAGS)"
-		@make -C $(LIBFT_PATH) valgrind
+		@$(MAKE) -C $(LIBFT_PATH) valgrind
 		$(CC) $(VALGRIND_FLAGS) $(OBJS_VALGR) -o $(NAME_VALGR) $(LIBS_FLAGS)_valgr
 		@echo "Compilación terminada: $@"
 		
@@ -221,11 +230,20 @@ tests: all
 
 tester: all
 		@if [ ! -f "minishell_tester/tester" ]; then git clone https://github.com/LucasKuhn/minishell_tester.git; fi;
-		cd minishell_tester && bash tester;
-#		@if [ ! -f "thales_tester/test.sh" ]; then git clone https://github.com/Rz-Rz/thales_tester.git; fi;
-#		chmod +x thales_tester/test.sh 
-#		cd thales_tester && ./test.sh ../ 1
-#		python3 *.py
+		cp tests minishell_tester/tests
+		cd minishell_tester && bash tester tests; true;
+		make pregunta
+		cd minishell_tester && bash tester builtins; true;
+		make pregunta
+		cd minishell_tester && bash tester extras; true;
+		make pregunta
+#		cd minishell_tester && bash tester redirects; true;
+#		cd minishell_tester && bash tester pipes; true;
+#		cd minishell_tester && bash tester wildcards; true;
+
+mpanic: all
+		@if [ ! -f "mpanic/mpanic.sh" ]; then git clone git@github.com:ChewyToast/mpanic.git; fi;
+		cd mpanic && bash mpanic.sh; true;
 
 commit:
 ifndef MSG
@@ -233,18 +251,18 @@ ifndef MSG
 else
 		@echo "⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜   GIT HUB    ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️"
 		@norminette || make pregunta
-		@make fclean
+		@$(MAKE) fclean
 		git add ../.
-		@make info2 > .info
+		@$(MAKE) info2 > .info
 		git status
-		@make pregunta
+		@$(MAKE) pregunta
 		git commit -a -m "$(NAME): $(MSG)"
 		git push
 		@echo "⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜   VOGSPHERE  ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️"
 #		@$(RM) -rf $(REPO_PATH)/*
 #		@cp -r $(LIBFT_PATH) $(REPO_PATH)$(LIBFT_PATH)
 		@echo "Vamos a borrar la carpeta $(REPO_PATH)"
-		@make pregunta
+		@$(MAKE) pregunta
 		@$(RM) -rf $(REPO_PATH)
 		@git clone $(REPGIT_URL) $(REPO_PATH)
 		@mkdir -p "$(REPO_PATH)$(EX_PATH)"
@@ -254,10 +272,10 @@ else
 		@cp  $(H_FILES) $(REPO_PATH)$(EX_PATH)$(H_FILES)
 		@cp Makefile $(REPO_PATH)$(EX_PATH)Makefile
 		@cd $(REPO_PATH) && git add . && git status
-		@make pregunta
+		@$(MAKE) pregunta
 		@cd $(REPO_PATH) && git commit -a -m "$(MSG)" && git push && git log
 		@echo "Vamos a clonar la repo en la carpeta test"
-		@make pregunta
+		@$(MAKE) pregunta
 		@$(RM) -rf test
 		@git clone $(REPO_PATH) test
 #		@cp checker_Mac test/
@@ -283,8 +301,8 @@ pregunta:
 
 
 info:
-		@make info2
-		@make info2 > .info
+		@$(MAKE) info2
+		@$(MAKE) info2 > .info
 
 info2:
 		@echo "Ficheros:"
@@ -303,16 +321,16 @@ info2:
 .anime:
 
 		@echo "Presiona intro para continuar"
-		@make pregunta > /dev/null
+		@$(MAKE) pregunta > /dev/null
 		@touch .anime
 		@clear
-		@make cabecera keny
-		@make cabecera ps0 
-		@make cabecera ps1 
-		@make cabecera ps0 
-		@make cabecera ps1 
-		@make cabecera ps0 
-		@make cabecera ps1 
+		@$(MAKE) cabecera keny
+		@$(MAKE) cabecera ps0 
+		@$(MAKE) cabecera ps1 
+		@$(MAKE) cabecera ps0 
+		@$(MAKE) cabecera ps1 
+		@$(MAKE) cabecera ps0 
+		@$(MAKE) cabecera ps1 
 
 keny:
 		@echo "            ⬜⬜⬜⬜⬜⬛⬛⬛⬛⬛⬜⬜⬜⬜⬜"

@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 17:27:05 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/16 18:44:10 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ char						*get_actual_dir(void);
 // echo.c
 int							com_echo(char **args);
 
+// exit.c
+void						com_exit(char **args);
+
 // enviroments.c
 int							add_env(t_envlist **lst, t_envlist *new);
 int							env_writer(t_envlist *env);
@@ -98,13 +101,14 @@ void						heredoc(char **words);
 void						print_words(char **words);
 void						execute_on_bash(char *command);
 
-// main.c
+// minishell.c
 t_data						*get_data(void);
 void						garbage_collector(void);
 
 // command.c
 int							add_command(char **args, char *redirects);
 void						free_commandlist(t_commandlist **commandlist);
-int							run_command(t_commandlist *command);
+int							exec_command(t_commandlist *command);
+int							run_commands(void);
 
 #endif

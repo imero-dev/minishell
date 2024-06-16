@@ -6,17 +6,47 @@ ENV
 // ?  unset deberia borral el nodo
 
 
-
-
-
 // TODO
 - Make dentro de minishell falla
-- minishel dentro de minishell casca al salir por doble free
 - pasar todos los free a ft_free
+- se sale con un punto de comando "." 
+
+
+├─ src
+   │  ├─ btin_dirs.c
+   │  │  ├─ line 37: TODO simplificar en una sola llamada a chdir
+   │  │  ├─ line 46: ? sobra este if de abajo ? o tengo que ver que pasa con $HOME y si esta vacia
+   │  │  └─ line 47: FIXME use env_get  // test evaluation point
+   │  ├─ com_funcs.c
+   │  │  ├─ line 176: TODO - revisar que hice en pipex
+   │  │  └─ line 190: ? imprimir error
+   │  ├─ minishell.c
+   │  │  ├─ line 47: ? imprimir error
+   │  │  ├─ line 79: TODO free
+   │  │  └─ line 83: TODO revisar
+   │  └─ syntax_spliter.c
+   │     ├─ line 31: TODO comprobar que son las mismas comillas, ahora abre con " y cierra con ' por ejemplo
+   │     ├─ line 45: FIXME no deberia hacer esto
+   │     ├─ line 51: TODO recibir quote_char y devolver hasta la siguiente quote_char sino -1 y ¿HEREDOC?
+   │     ├─ line 71: ? ??
+   │     ├─ line 86: TODO # define MAX_WORD_LENGTH 1024
+   │     ├─ line 127: TODO funcion que extraiga el texto entre comillas y lo devuelva
+   │     ├─ line 146: FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
+   │     ├─ line 157: FIXME las comillas pueden estar en cualquier parte del string
+   │     └─ line 169: FIXME copiar por partes, primero hasta la comilla, luego el contenido de la comilla y luego lo que queda
 
 
 
 // WARN hacer frees antes de empezar PIPEs
+
+
+
+
+
+
+
+
+
 
 
 REF Plantilla

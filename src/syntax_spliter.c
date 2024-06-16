@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 02:44:57 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 17:29:26 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	count_words(const char *str)
 	in_quotes = false;
 	while (*str)
 	{
-		if (*str == '"' || *str == '\'')
+		if (*str == '"' || *str == '\'') // TODO comprobar que son las mismas comillas, ahora abre con " y cierra con ' por ejemplo
 		{
 			if (!in_quotes)
 				word_count++;
@@ -42,7 +42,7 @@ static int	count_words(const char *str)
 	}
 	if (in_quotes)
 	{
-		printf("unexpected EOF while looking for matching \"\'\n");
+		printf("unexpected EOF while looking for matching \"\'\n"); // FIXME no deberia hacer esto
 		return (0);
 	}
 	return (word_count);
@@ -99,7 +99,7 @@ void	expand_env(char **word)
 		// && (*word)[i + 1] != '"' && (*word)[i + 1] != '\'')
 		{
 			j = ++i;
-			while ((*word)[i] && ft_isalnum((*word)[i]))
+			while ((*word)[i] && (ft_isalnum((*word)[i]) || (*word)[i] == '_'))
 				i++;
 			if ((*word)[i] == '?')
 				i++;
@@ -122,6 +122,25 @@ void	expand_env(char **word)
 			buffer[k++] = (*word)[i++];
 	}
 	*word = ft_strdup(buffer);
+}
+
+// TODO funcion que extraiga el texto entre comillas y lo devuelva
+
+char *extract_quotes(const char *str, char quote_char)
+{
+	int		len;
+	char	*result;
+
+	len = 0;
+	while (str[len] != quote_char && str[len] != '\0')
+		len++;
+	if (str[len] == '\0')
+		return (NULL);
+	result = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, str, len + 1);
+	return (result);
 }
 
 static char	*copy_word(const char **str_ptr, int index, char ***result_array)// FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
@@ -147,6 +166,7 @@ static char	*copy_word(const char **str_ptr, int index, char ***result_array)// 
 		ft_array_free(*result_array);
 		return (NULL);
 	}
+	// FIXME copiar por partes, primero hasta la comilla, luego el contenido de la comilla y luego lo que queda
 	ft_strlcpy((*result_array)[index], *str_ptr, len + 1);
 	if (quote_char != '\'')
 		expand_env(&(*result_array)[index]);

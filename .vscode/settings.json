@@ -6,7 +6,14 @@
         "minishell.h": "c",
         "array": "c",
         "string": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "libft.h": "c",
+        "wait.h": "c",
+        "errno.h": "c",
+        "types.h": "c",
+        "stdbool.h": "c",
+        "unistd.h": "c",
+        "limits.h": "c"
     },
     "todo-tree.tree.showBadges": false,
     "todo-tree.tree.autoRefresh": true,

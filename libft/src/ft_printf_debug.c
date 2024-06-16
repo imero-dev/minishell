@@ -3,35 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_debug.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.45urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 00:53:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/04/08 01:33:12 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/16 03:44:14 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_printconv(char c, va_list args, int *count)
+static int	ft_printconv(char c, va_list args, int *fd)
 {
 	if (c == 'c')
-		ft_putcharcnt((char)va_arg(args, int), count);
+		return (ft_putcharcnt((char)va_arg(args, int), *fd));
 	if (c == 's')
-		ft_putstrcnt(va_arg(args, char *), count);
+		return (ft_putstrcnt(va_arg(args, char *), *fd));
 	if (c == 'd' || c == 'i')
-		ft_putnbrcnt(va_arg(args, int), count);
+		return (ft_putnbrcnt(va_arg(args, int), *fd));
 	if (c == 'u')
-		ft_putnbrcnt(va_arg(args, unsigned int), count);
+		return (ft_putnbrcnt(va_arg(args, unsigned int), *fd));
 	if (c == 'x')
-		ft_puthexcnt(va_arg(args, unsigned int), 0, 0, count);
+		return (ft_puthexcnt(va_arg(args, unsigned int), 0, 0, *fd));
 	if (c == 'X')
-		ft_puthexcnt(va_arg(args, unsigned int), 1, 0, count);
+		return (ft_puthexcnt(va_arg(args, unsigned int), 1, 0, *fd));
 	if (c == '%')
-		ft_putcharcnt('%', count);
+		return (ft_putcharcnt('%', *fd));
 	if (c == 'p')
-		ft_puthexcnt(va_arg(args, unsigned long int), 0, 1, count);
+		return (ft_puthexcnt(va_arg(args, unsigned long int), 0, 1, *fd));
+	if (c == '?')
+		*fd = va_arg(args, int);
+	if (c == '!')
+		*fd = STDERR_FILENO;
+	if (c == '$')
+		*fd = STDOUT_FILENO;
+	if (c == '*')
+		perror("");
+	return (0);
 }
-
 /*
 ** Función para imprimir en consola solo si debug es verdadero.
 ** Tambien deberia sacar por stderr los errores. Hay que modificar
@@ -41,7 +49,9 @@ int	ft_printf_debug(char const *format, int debug, ...)
 	va_list		args;
 	const char	*p;
 	int			count;
+	int			fd;
 
+	fd = 1;
 	if (!format || !debug)
 		return (-1);
 	p = format - 1;
@@ -50,9 +60,9 @@ int	ft_printf_debug(char const *format, int debug, ...)
 	va_start(args, debug);
 	while (*++p != '\0')
 		if (*p == '%')
-			ft_printconv(*++p, args, &count);
-	else
-		ft_putcharcnt(*p, &count);
+			count += ft_printconv(*++p, args, &fd);
+		else
+			count += ft_putcharcnt(*p, fd);
 	va_end(args);
 	count += write(1, RESET, 4);
 	return (count);

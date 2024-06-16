@@ -6,22 +6,47 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 17:33:39 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/15 18:26:20 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *find_command(char *command)
+static int	is_dir(char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+		return (0);
+	return (S_ISDIR(path_stat.st_mode));
+}
+
+static char	*find_command(char *command)
 {
 	char	**path;
 	char	*exec;
 	int		i;
 
-	if(!command)
+	if (!command)
 		return (NULL);
-	if(access(command, X_OK) == 0)
-		return (command);
+	if (ft_strchr(command, '/'))
+	{
+		if (access(command, F_OK) == 0)
+		{
+			if (is_dir(command))
+				ft_perror("minishell: Is a directory\n", 0);
+			else if (access(command, X_OK) == 0)
+				return (ft_strdup(command));
+			else
+				perror("minishell: $(FILE)");
+			get_data()->last_exit_status = 126;
+			return (NULL);
+		} else {
+			ft_perror("minishell: No such file or directory\n", 0);
+			get_data()->last_exit_status = 127;
+			return (NULL);
+		}
+	}
 	path = ft_split(env_get("PATH"), ':');
 	if (!path)
 		return (NULL);
@@ -38,6 +63,8 @@ static char *find_command(char *command)
 		i++;
 	}
 	ft_array_free(path);
+	ft_printf("%!%s: command not found\n", command);
+	get_data()->last_exit_status = 127;
 	return (NULL);
 }
 
@@ -48,13 +75,11 @@ int	add_command(char **args, char *redirects)
 	t_commandlist	*last_command;
 
 	data = get_data();
-	new_command = malloc(sizeof(t_commandlist));
+	new_command = ft_calloc(1, sizeof(t_commandlist));
 	if (!new_command)
 		return (0);
-	new_command->command = find_command(args[0]);
 	new_command->args = args;
 	new_command->redirects = redirects;
-	new_command->next = NULL;
 	if (!data->commandlist)
 	{
 		data->commandlist = new_command;
@@ -76,46 +101,93 @@ void	free_commandlist(t_commandlist **commandlist)
 	while (current)
 	{
 		next = current->next;
-		if(current->command)
+		if (current->command)
 			free(current->command);
 		ft_array_free(current->args);
-		if(current->redirects)
+		if (current->redirects)
 			free(current->redirects);
 		free(current);
 		current = next;
 	}
 	*commandlist = NULL;
-}	
+}
 
-int run_command(t_commandlist *command)
+void	run_command(t_commandlist *command)
 {
-    pid_t	pid;
-    int		status;
-
-	if (!command->command)
+	if (ft_strcmp(command->args[0], "exit") == 0)
+		com_exit(command->args);
+	if (ft_strcmp(command->args[0], "pwd") == 0)
+		get_data()->last_exit_status = com_pwd();
+	else if (ft_strcmp(command->args[0], "cd") == 0)
+		get_data()->last_exit_status = com_cd(command->args);
+	else if (ft_strcmp(command->args[0], "echo") == 0)
+		get_data()->last_exit_status = com_echo(command->args);
+	else if (ft_strcmp(command->args[0], "env") == 0)
+		get_data()->last_exit_status = env_writer(get_data()->env_vars);
+	else if (ft_strchr(command->args[0], '='))
+		get_data()->last_exit_status = add_env(&get_data()->env_vars,
+				new_env(get_name(command->args[0]), get_value(command->args[0]),
+					false));
+	else if (ft_strcmp(command->args[0], "export") == 0)
+		get_data()->last_exit_status = export(get_data()->env_vars,
+				command->args);
+	else if (ft_strcmp(command->args[0], "unset") == 0)
+		get_data()->last_exit_status = unset(get_data()->env_vars,
+				command->args);
+	else if (ft_strnstr(command->args[0], "<<", ft_strlen(*command->args)))
+		heredoc(command->args);
+	else
 	{
-		perror("Command not found\n");
-		return (127);
+		command->command = find_command(command->args[0]);
+		get_data()->last_exit_status = exec_command(get_data()->commandlist);
 	}
-	printf("Running command: %s\n", command->command);
+}
+
+int	run_commands(void)
+{
+	t_commandlist	*current;
+
+	current = get_data()->commandlist;
+	while (current)
+	{
+		run_command(current);
+		current = current->next;
+	}
+	return (0);
+}
+
+int	exec_command(t_commandlist *command)
+{
+	pid_t	pid;
+	int		status;
+
+ 	if (!command->command)
+		return (get_data()->last_exit_status);
+/*	{
+		ft_perror("minishell: command not found\n", 0);
+		return (127);
+	} */
+	// printf("Running command: %s\n", command->command);
 	pid = fork();
-    if (pid == 0)
-    {
-		printf("fork >>>>\n");
-        execve(command->command, command->args, NULL);
-		printf("<<<< fork\n");
-        exit(1); // ? como recupero la salida del proceso hijo ¿este da igual?
-    }
+	if (pid == 0)
+	{
+		// printf("fork >>>>\n");
+		execve(command->command, command->args, NULL);
+		// TODO  - revisar que hice en pipex
+		printf(RED "aqui no deberia entrar" NC "\n");
+		exit(126);
+	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			if (WEXITSTATUS(status) != 0)
-				printf("Command failed with exit status: %d\n", WEXITSTATUS(status));
+			//	if (WEXITSTATUS(status) != 0)
+			//		printf("Command failed with exit status: %d\n",
+			//			WEXITSTATUS(status));
 		}
 		else
-			printf("Command terminated abnormally\n");
+			printf("Command terminated abnormally\n"); // ? imprimir error
 	}
-return (status);// ? WEXITSTATUS(status)
+	return (WEXITSTATUS(status));
 }
