@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 13:54:10 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/19 16:07:28 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,11 @@ void	interpreter(char *line)
 		free_envlist(get_data()->env_vars);
 		exit_shell("exit", exit_status);
 	}
-	if (ft_strcmp(words[0], "pwd") == 0)
+	if (ft_strcmp(words[0], "<<") == 0)
+		heredoc(words);
+	else if (ft_strcmp(words[0], ">>") == 0)
+		redirections(words);
+	else if (ft_strcmp(words[0], "pwd") == 0)
 		get_data()->last_exit_status = com_pwd();
 	else if (ft_strcmp(words[0], "cd") == 0)
 		get_data()->last_exit_status = com_cd(words);
@@ -72,8 +76,6 @@ void	interpreter(char *line)
 		get_data()->last_exit_status = export(get_data()->env_vars, words);
 	else if (ft_strcmp(words[0], "unset") == 0)
 		get_data()->last_exit_status = unset(get_data()->env_vars, words);
-	else if (ft_strnstr(words[0], "<<", ft_strlen(*words)))
-		heredoc(words);
 	else
 	{
 		// TODO funcion que haga el bucle de comandos

@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 13:53:21 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/19 16:02:23 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void						exit_shell(char *msg, int status);
 
 // redirections.c
 void						heredoc(char **words);
+int 						redirections(char **words);
 
 // debug.c
 void						print_words(char **words);
