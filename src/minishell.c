@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/19 16:07:28 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/07/06 12:55:34 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ t_data	*get_data(void)
 void	garbage_collector(void)
 {
 	t_data	*data;
-
+	
 	data = get_data();
+	
 	ft_free(&data->last_line);
 	ft_free(&data->line);
 	ft_free(&data->prompt);
@@ -42,7 +43,7 @@ void	interpreter(char *line)
 		// printf(RED "NULL recieved from syntax_spliter()\n" NC);
 		return ;
 	}
-	if(!add_command(words, NULL))
+	if(!add_command(words))
 		{
 			perror("Error: syntax error");// ? imprimir error 
 			ft_array_free(words);
@@ -58,10 +59,10 @@ void	interpreter(char *line)
 		free_envlist(get_data()->env_vars);
 		exit_shell("exit", exit_status);
 	}
-	if (ft_strcmp(words[0], "<<") == 0)
+/* 	if (ft_strcmp(words[0], "<<") == 0)
 		heredoc(words);
 	else if (ft_strcmp(words[0], ">>") == 0)
-		redirections(words);
+		redirections(words); */
 	else if (ft_strcmp(words[0], "pwd") == 0)
 		get_data()->last_exit_status = com_pwd();
 	else if (ft_strcmp(words[0], "cd") == 0)

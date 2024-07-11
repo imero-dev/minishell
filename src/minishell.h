@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/19 16:02:23 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/07/11 12:49:23 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@
 typedef struct s_commandlist
 {
 	int						pipefd[2];
+	int						infile;
+	int 					outfile;
 	char					*command;
-	char					**args;
-	char 					*redirects; // could be ** (splited)
+	char					**cmd_args;
+	char 					**tokens;
 	struct s_commandlist	*next;
 }							t_commandlist;
 
@@ -93,7 +95,7 @@ void						handle_sigquit(int sig);
 void						exit_shell(char *msg, int status);
 
 // redirections.c
-void						heredoc(char **words);
+int							heredoc(char **words);
 int 						redirections(char **words);
 
 // debug.c
@@ -105,7 +107,7 @@ t_data						*get_data(void);
 void						garbage_collector(void);
 
 // command.c
-int							add_command(char **args, char *redirects);
+int							add_command(char **args);
 void						free_commandlist(t_commandlist **commandlist);
 int							run_command(t_commandlist *command);
 

@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:51:50 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/24 13:44:50 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/06/25 17:27:37 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int redirections(char **words)
 	int i;
 	int fd;
 	
+	fd = 0;
 	i = 0;
 	while (words[i])
 	{
