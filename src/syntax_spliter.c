@@ -6,12 +6,12 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 17:29:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/14 23:22:59 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	find_next_word(const char **str_ptr, int *word_count)
 {
 	(*word_count)++;
@@ -19,7 +19,7 @@ static void	find_next_word(const char **str_ptr, int *word_count)
 		(*str_ptr)++;
 }
 
-static int	count_words(const char *str)
+static int	count_words(const char *str)  // FIXME esto no es buena idea, mejor usar ft_realloc dinamicamente
 {
 	int		word_count;
 	bool	in_quotes;
@@ -43,6 +43,50 @@ static int	count_words(const char *str)
 	if (in_quotes)
 	{
 		printf("unexpected EOF while looking for matching \"\'\n"); // FIXME no deberia hacer esto
+		return (0);
+	}
+	return (word_count);
+}
+*/
+static void	find_next_word(const char **str_ptr, int *word_count, char quote_char)
+{
+	(*word_count)++;
+	while (**str_ptr != ' ' && **str_ptr != '\0' && **str_ptr != quote_char)
+		(*str_ptr)++;
+}	
+
+static int	count_words(const char *str)  // FIXME esto no es buena idea, mejor usar ft_realloc dinamicamente
+{
+	int		word_count;
+	bool	in_quotes;
+	char	quote_char;
+
+	word_count = 0;
+	in_quotes = false;
+	quote_char = '\0';
+	while (*str)
+	{
+		if ((*str == '"' || *str == '\'') && quote_char == '\0')
+		{
+			in_quotes = true;
+			quote_char = *str;
+			str++;
+		}
+		else if (*str == quote_char && in_quotes)
+		{
+			in_quotes = false;
+			quote_char = '\0';
+			word_count ++;
+			str++;
+		}
+		else if (*str != ' ' && *str != '\0' && !in_quotes)
+			find_next_word(&str, &word_count, quote_char);
+		else
+			str++;
+	}
+	if (in_quotes)
+	{
+		ft_perror("minishell: unexpected EOF while looking for matching quotes", 0);
 		return (0);
 	}
 	return (word_count);
@@ -94,8 +138,8 @@ void	expand_env(char **word)
 	ft_bzero(buffer, 1024);
 	while ((*word)[i])
 	{
-		if ((*word)[i] == '$' && (*word)[i + 1] != '\0' && (*word)[i
-			+ 1] != ' ')
+		if ((*word)[i] == '$' && (ft_isalnum((*word)[i + 1]) ||
+			(*word)[i + 1] == '_' || (*word)[i + 1] == '?'))
 		// && (*word)[i + 1] != '"' && (*word)[i + 1] != '\'')
 		{
 			j = ++i;
@@ -142,7 +186,7 @@ char *extract_quotes(const char *str, char quote_char)
 	ft_strlcpy(result, str, len + 1);
 	return (result);
 }
-
+// TODO Preguntar a GPT con "Actua como un programador experto en C, revisa el código y arregla el fallo por el que el programa hace esto y quiero que haga esto otro ....."
 static char	*copy_word(const char **str_ptr, int index, char ***result_array)// FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
 {
 	int		len;
@@ -152,7 +196,7 @@ static char	*copy_word(const char **str_ptr, int index, char ***result_array)// 
 		(*str_ptr)++;
 	len = word_length(*str_ptr);
 	if (len == 0)
-		return (NULL);
+		return (ft_strdup(""));
 	quote_char = '\0';
 	if (**str_ptr == '"' || **str_ptr == '\'')// FIXME las comillas pueden estar en cualquier parte del string
 	{
@@ -199,13 +243,13 @@ char	**syntax_spliter(const char *str)
 			ft_array_free(result);
 			return (NULL);
 		}
-		if (word[0] == '\0')
+/* 		if (word[0] == '\0') // FIXME sobra, las cadenas vacias cuentan como argumentos
 			{
 				index--;
 				word_count--;
 				free(word);
 				result[index] = NULL;
-			}
+			} */
 	}
 	return (result);
 }

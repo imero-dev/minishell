@@ -9,7 +9,7 @@ ENV
 // TODO
 - Make dentro de minishell falla
 - pasar todos los free a ft_free
-- se sale con un punto de comando "." 
+- se sale con un punto de comando "."  (ahora dice: "aqui no deberia entrar")
 
 
 ├─ src
@@ -42,6 +42,12 @@ ENV
 
 
 
+SYNTAXIS
+Comillas
+
+is_quotes
+pwd guardar en ENV
+ENV con -
 
 
 

@@ -1,3 +1,4 @@
+.
 asdasdas
 /bin/ls -S
 date --rfc-3339=date
@@ -8,9 +9,16 @@ comando_falso
 ---------------------------
 ECHO
 ---------------------------
+echo
 echo cosas
 echo Hola mundo
 echo $/  
+echo cosa"s"
+echo "'$"
+echo '$"
+echo "$'
+echo $'
+echo '$
 echo "'$'"
 echo $'\n'
 echo $'\r'
@@ -131,7 +139,15 @@ exit 4294967295
 exit 4294967296                     
 exit -4294967296                    
 exit -4294967297                    
-exit 9223372036854775807              
+echo exit 9223372036854775807
+exit 9223372036854775808
+exit -9223372036854775808
+echo exit -9223372036854775809
+exit 18446744073709551615
+exit 18446744073709551616
+echo exit -18446744073709551616
+echo exit -18446744073709551617
+exit 9999999999999999999999              
 exit 0000000000000000000000         
 exit 0000000000000000000001         
 exit 1 2 3                          

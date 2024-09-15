@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 06:10:59 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/07/28 02:36:53 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	interpreter(char *line)
 	if (words == NULL || words[0] == NULL || words[0][0] == '\0')
 	{
 		// printf(RED "NULL recieved from syntax_spliter()\n" NC);
+		get_data()->last_exit_status = 2;
 		return ;
 	}
 	if(!add_command(words, NULL))

@@ -13,7 +13,8 @@
         "types.h": "c",
         "stdbool.h": "c",
         "unistd.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "colors.h": "c"
     },
     "todo-tree.tree.showBadges": false,
     "todo-tree.tree.autoRefresh": true,

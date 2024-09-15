@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 18:26:20 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/26 01:24:02 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ int	exec_command(t_commandlist *command)
 		// printf("fork >>>>\n");
 		execve(command->command, command->args, NULL);
 		// TODO  - revisar que hice en pipex
-		printf(RED "aqui no deberia entrar" NC "\n");
-		exit(126);
+		perror("minishell: $(FILE)");
+		exit(2);
 	}
 	else
 	{

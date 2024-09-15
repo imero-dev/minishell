@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 18:44:10 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/25 18:49:01 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <errno.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -37,6 +38,8 @@
 typedef struct s_commandlist
 {
 	int						pipefd[2];
+	int 					fd_in;
+	int 					fd_out;
 	char					*command;
 	char					**args;
 	char 					*redirects; // could be ** (splited)

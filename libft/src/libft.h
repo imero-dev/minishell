@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 03:08:08 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/06/16 21:44:27 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <limits.h>
+# include <errno.h>
 //# include <sys/syslimits.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -123,10 +124,10 @@ char				*get_next_line_no_nl(int fd);
 
 int					ft_printf(const char *str, ...);
 
-int				ft_putcharcnt(char c, int fd);
-int				ft_putstrcnt(char *s, int fd);
-int				ft_putnbrcnt(long n, int fd);
-int				ft_puthexcnt(unsigned long int n, int ucase, int prefix,
+int					ft_putcharcnt(char c, int fd);
+int					ft_putstrcnt(char *s, int fd);
+int					ft_putnbrcnt(long n, int fd);
+int					ft_puthexcnt(unsigned long int n, int ucase, int prefix,
 						int fd);
 
 /*
@@ -154,5 +155,9 @@ long long			ft_atoll(const char *str);
 long				ft_atol(const char *str);
 
 int					ft_strcmp(const char *s1, const char *s2);
+
+void				**ft_realloc_array(void **ptr, size_t old_size,
+						size_t new_size);
+void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif

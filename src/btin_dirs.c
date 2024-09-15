@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 18:44:02 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:14:21 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	com_pwd(void)
 /*
 ** Change to the directory ARG.
 */
-int	com_cd(char **args) // TODO simplificar en una sola llamada a chdir
+int	com_cd(char **args) // TODO simplificar en una sola llamada a chdir y guardar ENV
 {
 	if (args[2])
 	{
@@ -53,7 +53,7 @@ int	com_cd(char **args) // TODO simplificar en una sola llamada a chdir
 	}
 	if (chdir(args[1]) == -1)
 	{
-		ft_printf("%!minishell: cd: %s: %*", args[1]);
+		ft_printf("%!minishell: cd: %s: %*", args[1]);//WARN ERROR
 		return (1);
 	}
 	return (0);
