@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/07/06 12:55:34 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/18 14:18:02 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	interpreter(char *line)
 	else if (ft_strcmp(words[0], "env") == 0)
 		get_data()->last_exit_status = env_writer(get_data()->env_vars);
 	else if (ft_strchr(words[0], '='))
-		get_data()->last_exit_status = import(get_data()->env_vars,words);
+		get_data()->last_exit_status = save_var(get_data()->env_vars,words);
 	else if (ft_strcmp(words[0], "export") == 0)
 		get_data()->last_exit_status = export(get_data()->env_vars, words);
 	else if (ft_strcmp(words[0], "unset") == 0)

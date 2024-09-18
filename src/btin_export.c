@@ -6,7 +6,7 @@
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:10 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/15 13:52:41 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/18 14:30:01 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	export(t_envlist *env_vars, char **words)
 }
 
 
-int import(t_envlist *env_vars, char **words)
+int save_var(t_envlist *env_vars, char **words)
 {
 	t_envlist	*tmp;
 	char		*name;
@@ -66,7 +66,7 @@ int import(t_envlist *env_vars, char **words)
 				}
 			tmp = tmp->next;
 		}
-		if (ft_strchr(words[i], '=') && ft_stralnum(name)) 
+		if (ft_strchr(words[i], '=') && ft_isalnum_str(name)) 
 			add_env(&env_vars, new_env(get_name(words[i]), get_value(words[i]),
 					false));
 		free(name);

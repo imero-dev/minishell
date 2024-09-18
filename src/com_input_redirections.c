@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   com_heredoc.c                                      :+:      :+:    :+:   */
+/*   com_input_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/07/11 12:45:18 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/18 17:49:56 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,60 @@ void	free_arr(char **array)
 	free(array);
 }
 
-int	heredoc(char **words)
+static int input_files_opener(char *file)
+{
+	int fd;
+	
+	fd = 0;
+	if(fd)
+	{
+		close(fd);
+		fd = 0;
+	}
+	fd = open(file, O_RDWR , 0644);
+	return(fd);
+}
+
+void ft_heredoc(char *eof)
+{
+	int fd;
+	char *line;
+	
+	fd = 0;
+	fd = open(".heredoc", O_TRUNC | O_RDWR | O_CREAT, 0644);
+	while (ft_strcmp(line, eof))
+	{
+		line = readline("> ");
+		if (ft_strcmp(line, eof) == 0)
+			break;
+		ft_write(fd,line);
+	}
+	close(fd);
+}
+
+int	input_redirections(char **words)
 {
 	int		i;
 	int		fd;
-	char 	*end_of_files;
-	char	*line;
-	
+
 	fd = 0;
 	i = -1;
 	while (words[++i])
 	{
 		if(ft_strcmp(words[i], "<<") == 0 && words[i + 1])
 		{
-			end_of_files = words[i + 1];
-			fd = open(".heredoc", O_TRUNC | O_RDWR | O_CREAT, 0644);
-			while (ft_strcmp(line, end_of_files))
+			ft_heredoc(words[i +1]);
+			continue;;
+		}
+		else if (ft_strcmp(words[i], "<") == 0 && words[i + 1] && access(".heredoc", F_OK) == -1)
+		{
+			if(fd)
 			{
-				line = readline("> ");
-				if (ft_strcmp(line, end_of_files) == 0)
-					break;
-				ft_write(fd,line);
+				close(fd);	
+				fd = 0;
 			}
-				close(fd);
+			fd = input_files_opener(words[i + 1]);
 		}
 	}
-	return 0;
+	return fd;
 }
