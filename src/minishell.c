@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/07/28 02:36:53 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:32:27 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	interpreter(char *line)
 		get_data()->last_exit_status = 2;
 		return ;
 	}
-	if(!add_command(words, NULL))
+	if(!add_command(words))
 		{
 			ft_perror("minishell: syntax error", 0);// ? imprimir error 
 			ft_array_free(words);

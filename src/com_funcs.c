@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/19 03:08:36 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:29:12 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static char	*find_command(char *command)
 	return (NULL);
 }
 
-int	add_command(char **args, char *redirects)
+int	add_command(char **args)
 {
 	t_data			*data;
 	t_commandlist	*new_command;
@@ -118,7 +118,7 @@ int	add_command(char **args, char *redirects)
 	if (!new_command)
 		return (0);
 	new_command->args = args;
-	new_command->redirects = redirects;
+	//new_command->redirects = redirects;
 	if (!data->commandlist)
 	{
 		data->commandlist = new_command;
@@ -164,9 +164,7 @@ void	run_command(t_commandlist *command)
 	else if (ft_strcmp(command->args[0], "env") == 0)
 		get_data()->last_exit_status = env_writer(get_data()->env_vars);
 	else if (ft_strchr(command->args[0], '='))
-		get_data()->last_exit_status = add_env(&get_data()->env_vars,
-				new_env(get_name(command->args[0]), get_value(command->args[0]),
-					false));
+		get_data()->last_exit_status = save_var(get_data()->env_vars, command->args);
 	else if (ft_strcmp(command->args[0], "export") == 0)
 		get_data()->last_exit_status = export(get_data()->env_vars,
 				command->args);

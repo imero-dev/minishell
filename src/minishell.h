@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/19 03:07:14 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:31:57 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_commandlist
 	int 					fd_out;
 	char					*command;
 	char					**args;
-	char 					*redirects; // could be ** (splited)
+	char 					**redirects;
 	struct s_commandlist	*next;
 }							t_commandlist;
 
@@ -112,7 +112,7 @@ t_data						*get_data(void);
 void						garbage_collector(void);
 
 // command.c
-int							add_command(char **args, char *redirects);
+int							add_command(char **args);
 void						free_commandlist(t_commandlist **commandlist);
 int							exec_command(t_commandlist *command);
 int							run_commands(void);
