@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/26 01:24:02 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:08:36 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,46 @@ static int	is_dir(char *path)
 		return (0);
 	return (S_ISDIR(path_stat.st_mode));
 }
+/* 
+static char **find_args(char **args)
+{
+	int i;
+	int len;
+	int size;
+	char **new_array;
+	int j;
 
+	if (args == NULL)
+		return NULL;
+	j = 0;
+	i = 0;
+	len = 0;
+	while (args[len] && ft_strcmp(args[len], ">>")) 
+		len++;
+	while (args[i] && ft_strcmp(args[i], "<<") == 0)
+		i += 2;
+	size = len - i;
+	new_array = (char **)malloc((size + 1) * sizeof(char *));
+	if (new_array == NULL)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	//printf("j=%d, size=%d\n",j,size);
+	while (j < size) 
+	{
+		new_array[j] = strdup(args[i + j]);
+		if (new_array[j] == NULL)
+		{
+			perror("strdup failed");
+			exit(EXIT_FAILURE);
+		}
+		j++;
+	}
+	new_array[size] = NULL;
+	return new_array;
+}
+ */
 static char	*find_command(char *command)
 {
 	char	**path;
@@ -134,8 +173,8 @@ void	run_command(t_commandlist *command)
 	else if (ft_strcmp(command->args[0], "unset") == 0)
 		get_data()->last_exit_status = unset(get_data()->env_vars,
 				command->args);
-	else if (ft_strnstr(command->args[0], "<<", ft_strlen(*command->args)))
-		heredoc(command->args);
+//	else if (ft_strnstr(command->args[0], "<<", ft_strlen(*command->args)))
+//		heredoc(command->args);
 	else
 	{
 		command->command = find_command(command->args[0]);

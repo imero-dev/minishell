@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 21:44:27 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 00:36:19 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char				*ft_strjoinfree2(char *s1, char *s2);
 char				*ft_strjoinglue(char const *glue, ...);
 char				*ft_strjoinmulti(char const *first, ...);
 
+
 void				ft_free(char **ptr);
 int					ft_array_free(char **array);
 int					array_len(char **array);
@@ -150,6 +151,7 @@ void				ft_perror_exit(char *str, int status, ...);
 int					ft_printf_debug(char const *format, int debug, ...);
 
 int					ft_isspace(int c);
+int					ft_isalnumstr(char *str);
 
 long long			ft_atoll(const char *str);
 long				ft_atol(const char *str);

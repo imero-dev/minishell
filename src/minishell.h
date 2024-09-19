@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/25 18:49:01 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 03:07:14 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int							add_env(t_envlist **lst, t_envlist *new);
 int							env_writer(t_envlist *env);
 int							unset(t_envlist *env, char **words);
 int							export(t_envlist *env_vars, char **words);
+int							save_var(t_envlist *env_vars, char **words);
 
 char						*get_name(char *env);
 char						*get_value(char *env);
@@ -98,7 +99,9 @@ void						handle_sigquit(int sig);
 void						exit_shell(char *msg, int status);
 
 // redirections.c
-void						heredoc(char **words);
+int							input_redirections(char **words);
+void 						ft_heredoc(char *eof);
+int 						output_redirections(char **words);
 
 // debug.c
 void						print_words(char **words);
