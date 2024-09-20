@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/20 03:06:59 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:48:03 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ int	exec_command(t_commandlist *command)
 	pid_t	pid;
 	int		status;
 
+
  	if (!command->command)
 		return (get_data()->last_exit_status);
 /*	{
@@ -212,6 +213,7 @@ int	exec_command(t_commandlist *command)
 		return (127);
 	} */
 	// printf("Running command: %s\n", command->command);
+	
 	pid = fork();
 	if (pid == 0)
 	{
@@ -226,13 +228,13 @@ int	exec_command(t_commandlist *command)
 				perror("minishell: closing standard input: Bad file descriptor");
 			close(command->fd_in);
 		}
-		else if (command->fd_in > 0)
+		else if (command->fd_in)
 		{
 			if (dup2(command->fd_in, STDIN_FILENO) == -1)
 				perror("minishell: closing standard input: Bad file descriptor");
 			close(command->fd_in);
 		}
-		if (command->fd_out > 0)
+		if (command->fd_out)
 		{
 			printf("%d\n", command->fd_out);
 			if (dup2(command->fd_out, STDOUT_FILENO) == -1)
@@ -247,6 +249,8 @@ int	exec_command(t_commandlist *command)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (access(".heredoc", F_OK) == 0)
+			unlink(".heredoc");
 		if (WIFEXITED(status))
 		{
 			//	if (WEXITSTATUS(status) != 0)

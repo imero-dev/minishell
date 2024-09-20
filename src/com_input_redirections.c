@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_input_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/19 19:22:48 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:52:21 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ int	input_redirections(char **words)
 			ft_heredoc(words[i +1]);
 			continue;;
 		}
-		else if (ft_strcmp(words[i], "<") == 0 && words[i + 1] && access(".heredoc", F_OK) == -1)
+		else if (ft_strcmp(words[i], "<") == 0 && words[i + 1])
 		{
-			if(fd)
+			if (access(".heredoc", F_OK) == 0)
+				unlink(".heredoc");
+			if(fd > 0)
 			{
 				close(fd);	
 				fd = 0;
