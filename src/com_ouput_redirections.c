@@ -6,12 +6,14 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:51:50 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/19 03:04:22 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:12:10 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
+
+// https://www.gnu.org/software/bash/manual/bash.html#Redirections
 
 static int output_files_opener(char *file)
 {

@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/19 03:32:27 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:10:44 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,33 @@ void	garbage_collector(void)
 void	interpreter(char *line)
 {
 	char	**words;
+	int 	i;
 
+	i = 0;
 	if (!line || ft_strlen(line) == 0)
 		return ;
-	words = syntax_spliter(line);
-	if (words == NULL || words[0] == NULL || words[0][0] == '\0')
+	get_data()->orders = ft_split(line, '|'); // FIXME no deberia splitear si | esta entre comillas
+	while (get_data()->orders[i])
 	{
-		// printf(RED "NULL recieved from syntax_spliter()\n" NC);
-		get_data()->last_exit_status = 2;
-		return ;
-	}
-	if(!add_command(words))
+		words = syntax_spliter(get_data()->orders[i]);
+		if (words == NULL)
+		{
+			// printf(RED "NULL recieved from syntax_spliter()\n" NC);
+			get_data()->last_exit_status = 2; // crei que no tiene que hacer nada sin mas
+			return ;
+		}
+		// FIXME si una word[0] es null pero hay mas palabras deberia eliminarla y seguir
+		// TODO esto tendria que estar en run commands
+		if (words[0] == NULL || words[0][0] == '\0')
+			return ;
+		if (!add_command(words))
 		{
 			ft_perror("minishell: syntax error", 0);// ? imprimir error 
 			ft_array_free(words);
 			return;
 		}
+		i++;
+	}
 	run_commands();
 	if (DEBUG)
 		execute_on_bash(line);

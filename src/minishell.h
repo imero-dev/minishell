@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/19 03:31:57 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:06:27 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_data
 	char					*line;
 	char					*last_line;
 	char					*prompt;
+	char					**orders; // ordenes entre pipes
 	int						last_exit_status;
 	//	int						pipes_num;
 	t_commandlist			*commandlist;

@@ -6,11 +6,14 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/19 03:04:28 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:22:48 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// https://www.gnu.org/software/bash/manual/bash.html#Redirections
+// https://www.terminaltemple.com
 
 static int ft_write(int fd, char *line)
 {

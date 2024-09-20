@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/15 02:45:25 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 02:18:52 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,15 +218,13 @@ static char	*copy_word(const char **str_ptr, int index, char ***result_array)// 
 	return ((*result_array)[index]);
 }
 
-char	**syntax_spliter(const char *str)
+char **syntax_spliter(const char *str)
 {
 	int		index;
-	char	*word;
 	int		word_count;
 	char	**result;
 
 	index = 0;
-	word = NULL;
 	if (!str)
 		return (NULL);
 	word_count = count_words(str);
@@ -237,19 +235,12 @@ char	**syntax_spliter(const char *str)
 		return (NULL);
 	while (index < word_count)
 	{
-		word = copy_word(&str, index++, &result);
-		if (word == NULL)
+		if (!copy_word(&str, index++, &result))
 		{
 			ft_array_free(result);
 			return (NULL);
 		}
-/* 		if (word[0] == '\0') // FIXME sobra, las cadenas vacias cuentan como argumentos
-			{
-				index--;
-				word_count--;
-				free(word);
-				result[index] = NULL;
-			} */
 	}
 	return (result);
 }
+

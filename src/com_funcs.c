@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/19 03:29:12 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:06:59 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_dir(char *path)
 		return (0);
 	return (S_ISDIR(path_stat.st_mode));
 }
-/* 
+
 static char **find_args(char **args)
 {
 	int i;
@@ -34,9 +34,9 @@ static char **find_args(char **args)
 	j = 0;
 	i = 0;
 	len = 0;
-	while (args[len] && ft_strcmp(args[len], ">>")) 
-		len++;
-	while (args[i] && ft_strcmp(args[i], "<<") == 0)
+while ((args[len] && ft_strcmp(args[len], ">>") && ft_strcmp(args[len], ">")))
+		len ++;
+	while ((args[i] && ft_strcmp(args[i], "<<") == 0) || (args[i] && ft_strcmp(args[i], "<") == 0 ))
 		i += 2;
 	size = len - i;
 	new_array = (char **)malloc((size + 1) * sizeof(char *));
@@ -45,7 +45,6 @@ static char **find_args(char **args)
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	//printf("j=%d, size=%d\n",j,size);
 	while (j < size) 
 	{
 		new_array[j] = strdup(args[i + j]);
@@ -59,7 +58,7 @@ static char **find_args(char **args)
 	new_array[size] = NULL;
 	return new_array;
 }
- */
+
 static char	*find_command(char *command)
 {
 	char	**path;
@@ -118,11 +117,19 @@ int	add_command(char **args)
 	if (!new_command)
 		return (0);
 	new_command->args = args;
+	//new_command->command = find_command(args[0]);
+	new_command->redirects = args;
+	new_command->args = find_args(args);
 	//new_command->redirects = redirects;
 	if (!data->commandlist)
 	{
 		data->commandlist = new_command;
 		return (1);
+		//faltan cosas
+/* 		if(current->cmd_args)
+			ft_array_free(current->cmd_args);
+		if(current->tokens)
+			ft_array_free(current->tokens); */
 	}
 	last_command = data->commandlist;
 	while (last_command->next)
@@ -209,6 +216,29 @@ int	exec_command(t_commandlist *command)
 	if (pid == 0)
 	{
 		// printf("fork >>>>\n");
+		command->fd_in = input_redirections(command->redirects);
+		command->fd_out = output_redirections(command->redirects);
+		if(access(".heredoc", R_OK) == 0)
+		{
+			//printf("llego\n");
+			command->fd_in = open(".heredoc", O_RDWR);
+			if (dup2(command->fd_in, STDIN_FILENO) == -1)
+				perror("minishell: closing standard input: Bad file descriptor");
+			close(command->fd_in);
+		}
+		else if (command->fd_in > 0)
+		{
+			if (dup2(command->fd_in, STDIN_FILENO) == -1)
+				perror("minishell: closing standard input: Bad file descriptor");
+			close(command->fd_in);
+		}
+		if (command->fd_out > 0)
+		{
+			printf("%d\n", command->fd_out);
+			if (dup2(command->fd_out, STDOUT_FILENO) == -1)
+				perror("minishell: closing standard output: Bad file descriptor\n");
+			close(command->fd_out);
+		}
 		execve(command->command, command->args, NULL);
 		// TODO  - revisar que hice en pipex
 		perror("minishell: $(FILE)");
