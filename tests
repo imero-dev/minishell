@@ -39,7 +39,8 @@ EVALUATION Simple Command & global variables
 ''
 "" ls
 '' ls
-
+$vacio
+$vacio ls
  
       
 		
@@ -51,19 +52,22 @@ EVALUATION Argumentos
 ---------------------------
 /bin/echo hola
 /bin/echo hola cara cola
+/bin/echo 1 2 3 4 5 6 7 8 9 10 hola
 /bin/cat Makefile
+/bin/ls -lS
+/bin/ls -z
+/bin/cat Makefile
+/bin/cat Makefile Makefile
 ---------------------------
-EVALUATION Argumentos
+EVALUATION Echo
 ---------------------------
 echo
 echo cosas
 echo Hola mundo
 echo -nn hi
-echo $/  
-ls -lS
-ls -z
-cat Makefile
-cat Makefile Makefile
+echo -n hi
+echo 1 2 3 4 5 6 7 8 9 10 hola
+echo $/
 ---------------------------
 EVALUATION exit
 ---------------------------
@@ -125,50 +129,45 @@ permission deny then exit 1
 ---------------------------
 EVALUATION exit error codes
 ---------------------------
-/bin/ls filethatdoesntexist
+/bin/ls filethatdoesntexist 
+comando desconocido
+cp
+mv
+"
 ---------------------------
-COMILLAS
+EVALUATION COMILLAS DOBLES
 ---------------------------
-echo cosa"s"
-echo "'$"
-echo '$"
-echo "$'
-echo '$
-echo '$
-echo "$
-echo "$
-echo "'$'"
-echo $'\n'
-echo $'\r'
-echo $'\t'
-echo '$HOME'     
-echo '*.txt'     
-echo '\$PATH'
-echo '$PATH' 
-    cosas_nasis
-
+"cat lol.c | cat > lol.c"
 /bin/echo "cosa" cosa
-
 echo "$HOME"
 echo "*.txt"
 echo "El usuario es $USER"
 echo "Hola\nmundo"
-
 echo "Esto es una prueba"
-echo 'Comillas simples'
 echo "Comillas dobles y variable: $USER"
 echo "$HOME/Documentos"
-echo "Comillas anidadas: 'Esto es "una" prueba'"
+echo cosa"s"
+echo "'$"
+echo "$
+echo "$
+echo "'$'"
+---------------------------
+EVALUATION COMILLAS DOBLES
+---------------------------
+echo '$"
+echo "$'
+echo '$
+echo '$
+echo '$HOME'     
+echo '*.txt'     
+echo '\$PATH'
+echo '$PATH' 
+echo 'Comillas simples'
 
+---------------------------
+EVALUATION ENV EXPORT UNSET 🛑 Manual test!!! 🛑
+---------------------------
 echo $MI_VARIABLE
-echo "aspas ->'"
-echo "aspas -> ' " 
-echo 'aspas ->"'
-echo 'aspas -> " '
-exit +"100"
----------------------------
-ENV
----------------------------
 export MI_VARIABLE=valor
 echo $MI_VARIABLE
 unset MI_VARIABLE
@@ -179,6 +178,17 @@ Redirecciones
 ls > lista.txt
 < lista.txt cat
 cat  < lista.txt
+
+
+---------------------------
+EVALUATION GO CRAZY
+---------------------------
+echo "Comillas anidadas: 'Esto es "una" prueba'"
+echo "aspas ->'"
+echo "aspas -> ' " 
+echo 'aspas ->"'
+echo 'aspas -> " '
+exit +"100"
 ---------------------------
 Segfaults
 ---------------------------

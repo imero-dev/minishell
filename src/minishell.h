@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 04:53:03 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/24 01:14:26 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <termios.h>
+# include <bits/termios-c_lflag.h>
 
-// Deberia haber una global para el status de salida de los comandos pero lo hacemos con el singleton get_data()->last_exit_status
+// FIXME Deberia haber una global para el status de salida de los comandos pero lo hacemos con el singleton get_data()->last_exit_status
 
 typedef struct s_commandlist
 {
@@ -62,12 +64,28 @@ typedef struct s_data
 	char					*line;
 	char					*last_line;
 	char					*prompt;
-	char **orders; // ordenes entre pipes
+	char 					**orders; // ordenes entre pipes
 	int						last_exit_status;
+	bool					runing_commands;
 	//	int						pipes_num;
 	t_commandlist			*commandlist;
 	t_envlist				*env_vars;
 }							t_data;
+
+typedef struct s_spliterdata
+{
+	char					**tokens;
+	char					*current_token;
+	size_t					tokens_size;
+	size_t					token_length;
+	size_t					token_capacity;
+	size_t					len;
+	size_t					i;
+	bool					in_single_quote;
+	bool					in_double_quote;
+	bool					expand_env;
+	bool 					quoted_token;
+}							t_spliterdata;
 
 // dirs.c
 int							com_pwd(void);
@@ -97,12 +115,21 @@ char						*env_get(char *name);
 // syntax_spliter.c
 char						**syntax_spliter(const char *str);
 
+// syntax_spliter_utils.c
+int							initialize_data(t_spliterdata *data,
+								const char *str);
+char						**ft_add_to_array(char **tokens, size_t *size,
+								char *new_token);
+bool						check_unbalanced_quotes(t_spliterdata *data);
+
 // syntax_classify_tokens.c
 void						classify_tokens(t_commandlist *command);
 
+// syntax_expand_env.c
+void						expand_env(char **token);
+
 // signals.c
 void						handle_sigint(int sig);
-void						handle_sigint_runing(int sig);
 void						handle_sigquit(int sig);
 void						exit_shell(char *msg, int status);
 

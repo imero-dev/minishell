@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 03:24:51 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:36:10 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	main(int argc, char **argv, char **enviroment)
 	data = get_data();
 	signal(SIGINT, handle_sigint);   // Ctrl+C
 	signal(SIGQUIT, handle_sigquit); // Ctrl+\ (Ctrl+Ç)
-//	signal(SIGTERM, handle_sigint); // kill  No recuerdo porque la quité pero funciona igua con ella que sin ella
 	data->last_line = ft_strdup("");
 	data->env_vars = env_initializer(enviroment);
 	data->prompt = ft_strdup("");

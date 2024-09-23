@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 04:32:31 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 23:54:44 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int	run_commands(void)
 {
 	t_commandlist	*current;
 
+	get_data()->runing_commands = true;
 	current = get_data()->commandlist;
 	while (current && current->args)
 	{
@@ -156,6 +157,7 @@ int	run_commands(void)
 		current = current->next;
 	}
 	free_commandlist(&get_data()->commandlist);
+	get_data()->runing_commands = false;
 	return (0);
 }
 
@@ -167,16 +169,16 @@ int	exec_command(t_commandlist *command)
 
  	if (!command->command)
 		return (get_data()->last_exit_status);
+	get_data()->last_exit_status = 0;
 	pid = fork();
-	signal(SIGINT, handle_sigint_runing);
 	if (pid == 0)
 	{
 		command->fd_in = input_redirections(command->redirects);
 		command->fd_out = output_redirections(command->redirects);
-		if(access(".heredoc", R_OK) == 0)
+		if(access(".heredoc", R_OK) == 0)// TODO nueva funcion que no repita 3 veces lo mismo
 		{
-			command->fd_in = open(".heredoc", O_RDWR);
-			if (dup2(command->fd_in, STDIN_FILENO) == -1)
+			command->fd_in = open(".heredoc", O_RDWR); // FIXME esto deberia hacerse en la redireccion y si luego hay otra redireccion que se pise siguiendo el orden de ejecucion
+			if (dup2(command->fd_in, STDIN_FILENO) == -1)// FIXME creo que los .heredoc no funcionan dentro de un pipe porque se ejecutan en paralelo
 				perror("minishell: closing standard input: Bad file descriptor");
 			close(command->fd_in);
 		}
@@ -210,6 +212,5 @@ int	exec_command(t_commandlist *command)
 			//			WEXITSTATUS(status));
 		}
 	}
-	signal(SIGINT, handle_sigint);
-	return (WEXITSTATUS(status));
+	return (WEXITSTATUS(status) + get_data()->last_exit_status);
 }
