@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/20 18:48:03 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/23 04:32:31 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,44 +19,6 @@ static int	is_dir(char *path)
 	if (stat(path, &path_stat) != 0)
 		return (0);
 	return (S_ISDIR(path_stat.st_mode));
-}
-
-static char **find_args(char **args)
-{
-	int i;
-	int len;
-	int size;
-	char **new_array;
-	int j;
-
-	if (args == NULL)
-		return NULL;
-	j = 0;
-	i = 0;
-	len = 0;
-while ((args[len] && ft_strcmp(args[len], ">>") && ft_strcmp(args[len], ">")))
-		len ++;
-	while ((args[i] && ft_strcmp(args[i], "<<") == 0) || (args[i] && ft_strcmp(args[i], "<") == 0 ))
-		i += 2;
-	size = len - i;
-	new_array = (char **)malloc((size + 1) * sizeof(char *));
-	if (new_array == NULL)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
-	while (j < size) 
-	{
-		new_array[j] = strdup(args[i + j]);
-		if (new_array[j] == NULL)
-		{
-			perror("strdup failed");
-			exit(EXIT_FAILURE);
-		}
-		j++;
-	}
-	new_array[size] = NULL;
-	return new_array;
 }
 
 static char	*find_command(char *command)
@@ -89,7 +51,7 @@ static char	*find_command(char *command)
 	if (!path)
 		return (NULL);
 	i = 0;
-	while (path[i])
+	while (path[i] && command[0] )
 	{
 		exec = ft_strjoinfree1(ft_strjoin(path[i], "/"), command);
 		if (access(exec, X_OK) == 0)
@@ -106,7 +68,7 @@ static char	*find_command(char *command)
 	return (NULL);
 }
 
-int	add_command(char **args)
+int	add_command(char **tokens)
 {
 	t_data			*data;
 	t_commandlist	*new_command;
@@ -116,20 +78,12 @@ int	add_command(char **args)
 	new_command = ft_calloc(1, sizeof(t_commandlist));
 	if (!new_command)
 		return (0);
-	new_command->args = args;
-	//new_command->command = find_command(args[0]);
-	new_command->redirects = args;
-	new_command->args = find_args(args);
-	//new_command->redirects = redirects;
+	new_command->tokens = tokens;
+	classify_tokens(new_command);
 	if (!data->commandlist)
 	{
 		data->commandlist = new_command;
 		return (1);
-		//faltan cosas
-/* 		if(current->cmd_args)
-			ft_array_free(current->cmd_args);
-		if(current->tokens)
-			ft_array_free(current->tokens); */
 	}
 	last_command = data->commandlist;
 	while (last_command->next)
@@ -160,6 +114,9 @@ void	free_commandlist(t_commandlist **commandlist)
 
 void	run_command(t_commandlist *command)
 {
+	//FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
+	if (!command->args[0])
+		return ;
 	if (ft_strcmp(command->args[0], "exit") == 0)
 		com_exit(command->args);
 	if (ft_strcmp(command->args[0], "pwd") == 0)
@@ -183,7 +140,8 @@ void	run_command(t_commandlist *command)
 	else
 	{
 		command->command = find_command(command->args[0]);
-		get_data()->last_exit_status = exec_command(get_data()->commandlist);
+		if(command->command)
+			get_data()->last_exit_status = exec_command(get_data()->commandlist);
 	}
 }
 
@@ -192,11 +150,12 @@ int	run_commands(void)
 	t_commandlist	*current;
 
 	current = get_data()->commandlist;
-	while (current)
+	while (current && current->args)
 	{
 		run_command(current);
 		current = current->next;
 	}
+	free_commandlist(&get_data()->commandlist);
 	return (0);
 }
 
@@ -208,21 +167,14 @@ int	exec_command(t_commandlist *command)
 
  	if (!command->command)
 		return (get_data()->last_exit_status);
-/*	{
-		ft_perror("minishell: command not found\n", 0);
-		return (127);
-	} */
-	// printf("Running command: %s\n", command->command);
-	
 	pid = fork();
+	signal(SIGINT, handle_sigint_runing);
 	if (pid == 0)
 	{
-		// printf("fork >>>>\n");
 		command->fd_in = input_redirections(command->redirects);
 		command->fd_out = output_redirections(command->redirects);
 		if(access(".heredoc", R_OK) == 0)
 		{
-			//printf("llego\n");
 			command->fd_in = open(".heredoc", O_RDWR);
 			if (dup2(command->fd_in, STDIN_FILENO) == -1)
 				perror("minishell: closing standard input: Bad file descriptor");
@@ -243,7 +195,7 @@ int	exec_command(t_commandlist *command)
 		}
 		execve(command->command, command->args, NULL);
 		// TODO  - revisar que hice en pipex
-		perror("minishell: $(FILE)");
+		perror("minishell: fail on execution (execve)"); 
 		exit(2);
 	}
 	else
@@ -257,8 +209,7 @@ int	exec_command(t_commandlist *command)
 			//		printf("Command failed with exit status: %d\n",
 			//			WEXITSTATUS(status));
 		}
-		else
-			printf("Command terminated abnormally\n"); // ? imprimir error
 	}
+	signal(SIGINT, handle_sigint);
 	return (WEXITSTATUS(status));
 }

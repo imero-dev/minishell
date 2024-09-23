@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrayfree.c                                     :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/14 01:26:52 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:14:28 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+
+
+int	ft_array_free_null(char ***array)
+{
+	if (!array)
+		return (0);
+	ft_array_free(*array);
+	*array = NULL;
+	return (0);
+}
+
 int	ft_array_free(char **array)
 {
 	int	i;
 
+	if (!array)
+		return (0);
 	i = 0;
 	while (array[i])
 		if (array[i])

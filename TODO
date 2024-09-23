@@ -1,49 +1,45 @@
 
 https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
 
-ENV
-// FIXME  No añadir de nuevo una variable de entorno que ya existe en el sistema.
-// ?  unset deberia borral el nodo
-
-
 // TODO
 - Make dentro de minishell falla
 - pasar todos los free a ft_free
-- se sale con un punto de comando "."  (ahora dice: "aqui no deberia entrar")
 
 
 ├─ src
    │  ├─ btin_dirs.c
-   │  │  ├─ line 37: TODO simplificar en una sola llamada a chdir
-   │  │  ├─ line 46: ? sobra este if de abajo ? o tengo que ver que pasa con $HOME y si esta vacia
-   │  │  └─ line 47: FIXME use env_get  // test evaluation point
+   │  │  ├─ line 37: TODO simplificar en una sola llamada a chdir y guardar ENV
+   │  │  ├─ line 45: ? sobra este if de abajo ? o tengo que ver que pasa con $HOME y si esta vacia
+   │  │  ├─ line 46: FIXME use env_get  // test evaluation point
+   │  │  └─ line 56: WARN ERROR
    │  ├─ com_funcs.c
-   │  │  ├─ line 176: TODO - revisar que hice en pipex
-   │  │  └─ line 190: ? imprimir error
+   │  │  ├─ line 117: FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
+   │  │  └─ line 197: TODO - revisar que hice en pipex
    │  ├─ minishell.c
-   │  │  ├─ line 47: ? imprimir error
-   │  │  ├─ line 79: TODO free
-   │  │  └─ line 83: TODO revisar
+   │  │  └─ line 41: FIXME no deberia splitear si | esta entre comillas
+   │  ├─ syntax_find_args.c
+   │  │  └─ line 115: FIXME no deberia salir por aqui,
    │  └─ syntax_spliter.c
+   │     ├─ line 22: FIXME esto no es buena idea, mejor usar ft_realloc dinamicamente
    │     ├─ line 31: TODO comprobar que son las mismas comillas, ahora abre con " y cierra con ' por ejemplo
    │     ├─ line 45: FIXME no deberia hacer esto
-   │     ├─ line 51: TODO recibir quote_char y devolver hasta la siguiente quote_char sino -1 y ¿HEREDOC?
-   │     ├─ line 71: ? ??
-   │     ├─ line 86: TODO # define MAX_WORD_LENGTH 1024
-   │     ├─ line 127: TODO funcion que extraiga el texto entre comillas y lo devuelva
-   │     ├─ line 146: FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
-   │     ├─ line 157: FIXME las comillas pueden estar en cualquier parte del string
-   │     └─ line 169: FIXME copiar por partes, primero hasta la comilla, luego el contenido de la comilla y luego lo que queda
-
+   │     ├─ line 58: FIXME esto no es buena idea, mejor usar ft_realloc dinamicamente
+   │     ├─ line 95: TODO recibir quote_char y devolver hasta la siguiente quote_char sino -1 y ¿HEREDOC?
+   │     ├─ line 115: ? ??
+   │     ├─ line 130: TODO # define MAX_WORD_LENGTH 1024
+   │     ├─ line 171: TODO funcion que extraiga el texto entre comillas y lo devuelva
+   │     ├─ line 189: TODO Preguntar a GPT con "Actua como un programador experto en C, revisa el código y arregla el fallo por el que el programa hace esto y quiero que haga esto otro ....."
+   │     ├─ line 190: FIXME comillas pegadas word_length deberia acabar en la comilla y luego si hay comillas seguido repetir
+   │     ├─ line 201: FIXME las comillas pueden estar en cualquier parte del string
+   │     └─ line 213: FIXME copiar por partes, primero hasta la comilla, luego el contenido de la comilla y luego lo que queda
+   ├─ TODO
 
 
 // WARN hacer frees antes de empezar PIPEs
 
-
-
-
 SYNTAXIS
 Comillas
+// FIXME echo "cosa" cosa                    va mal imprime "cosa  cos"
 
 is_quotes
 pwd guardar en ENV

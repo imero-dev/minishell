@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/06/16 01:31:54 by ivromero         ###   ########.fr        #
+#    Updated: 2024/09/22 06:28:17 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -237,9 +237,11 @@ tester: all
 		make pregunta
 		cd minishell_tester && bash tester extras; true;
 		make pregunta
-#		cd minishell_tester && bash tester redirects; true;
-#		cd minishell_tester && bash tester pipes; true;
-#		cd minishell_tester && bash tester wildcards; true;
+		cd minishell_tester && bash tester redirects; true;
+		make pregunta
+		cd minishell_tester && bash tester pipes; true;
+		make pregunta
+		cd minishell_tester && bash tester
 
 mpanic: all
 		@if [ ! -f "mpanic/mpanic.sh" ]; then git clone git@github.com:ChewyToast/mpanic.git; fi;

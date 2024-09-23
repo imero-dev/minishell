@@ -5,105 +5,67 @@ date --rfc-3339=date
 whoami
 ../../../../../../../../../../../../bin/ls -S
 comando_falso
-
 ---------------------------
 ECHO
 ---------------------------
-echo
-echo cosas
-echo Hola mundo
-echo $/  
-echo cosa"s"
-echo "'$"
-echo '$"
-echo "$'
-echo $'
-echo '$
-echo "'$'"
-echo $'\n'
-echo $'\r'
-echo $'\t'
-echo -nn hi
-echo -n -n hi
+
 
 ---------------------------
 DIRS
 ---------------------------
-
 pwd
 pwd dsfsdfsd dsfdsfds
 mkdir nueva_carpeta
-cd nueva_carpeta
 touch archivo.txt
 ls archivo.txt
 rmdir no_existe_carpeta
-cd ..
-cd /tmp
 cd ' / '
-ls -z
 ./test_files/invalid_permission
 ./missing.out
 /test_files 
 README.md
 
 ---------------------------
-ENV
----------------------------
-export MI_VARIABLE=valor
-echo $MI_VARIABLE
-unset MI_VARIABLE
-$PWD
-
----------------------------
 😈😈😈😈😈
----------------------------
-rm /etc/passwd
-
 
 
 ---------------------------
-COMILLAS
+EVALUATION Simple Command & global variables
 ---------------------------
+/bin/ls -lS
+/bin/pwd
+/bin/echo
+""
+''
+"" ls
+'' ls
 
-echo '$HOME'     
-echo '*.txt'     
-echo '\$PATH'
-echo '$PATH' 
-    cosas_nasis
-
-echo "$HOME"
-echo "*.txt"
-echo "El usuario es $USER"
-echo "Hola\nmundo"
-
-echo "Esto es una prueba"
-echo 'Comillas simples'
-echo "Comillas dobles y variable: $USER"
-echo "$HOME/Documentos"
-echo "Comillas anidadas: 'Esto es "una" prueba'"
-
-echo $MI_VARIABLE
-echo "aspas ->'"
-echo "aspas -> ' " 
-echo 'aspas ->"'
-echo 'aspas -> " '
-exit +"100"
-
-make
-
-
----------------------------
-EVAL
----------------------------
  
+      
 		
+    
 	222 	
-
-/bin/ls -S
-
-
+	 222 	
 ---------------------------
-exit
+EVALUATION Argumentos
+---------------------------
+/bin/echo hola
+/bin/echo hola cara cola
+/bin/cat Makefile
+---------------------------
+EVALUATION Argumentos
+---------------------------
+echo
+echo cosas
+echo Hola mundo
+echo -nn hi
+echo $/  
+ls -lS
+ls -z
+cat Makefile
+cat Makefile Makefile
+---------------------------
+EVALUATION exit
 ---------------------------
 exit                                
 exit ""                             
@@ -160,3 +122,69 @@ not found then exit
 not found then exit 1               
 permission deny then exit           
 permission deny then exit 1         
+---------------------------
+EVALUATION exit error codes
+---------------------------
+/bin/ls filethatdoesntexist
+---------------------------
+COMILLAS
+---------------------------
+echo cosa"s"
+echo "'$"
+echo '$"
+echo "$'
+echo '$
+echo '$
+echo "$
+echo "$
+echo "'$'"
+echo $'\n'
+echo $'\r'
+echo $'\t'
+echo '$HOME'     
+echo '*.txt'     
+echo '\$PATH'
+echo '$PATH' 
+    cosas_nasis
+
+/bin/echo "cosa" cosa
+
+echo "$HOME"
+echo "*.txt"
+echo "El usuario es $USER"
+echo "Hola\nmundo"
+
+echo "Esto es una prueba"
+echo 'Comillas simples'
+echo "Comillas dobles y variable: $USER"
+echo "$HOME/Documentos"
+echo "Comillas anidadas: 'Esto es "una" prueba'"
+
+echo $MI_VARIABLE
+echo "aspas ->'"
+echo "aspas -> ' " 
+echo 'aspas ->"'
+echo 'aspas -> " '
+exit +"100"
+---------------------------
+ENV
+---------------------------
+export MI_VARIABLE=valor
+echo $MI_VARIABLE
+unset MI_VARIABLE
+$PWD
+---------------------------
+Redirecciones
+---------------------------
+ls > lista.txt
+< lista.txt cat
+cat  < lista.txt
+---------------------------
+Segfaults
+---------------------------
+< | test
+<< | test
+>
+>>
+<
+<<

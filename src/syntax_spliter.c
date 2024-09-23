@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/20 02:18:52 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 03:52:47 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	count_words(const char *str)  // FIXME esto no es buena idea, mejor u
 	}
 	if (in_quotes)
 	{
-		ft_perror("minishell: unexpected EOF while looking for matching quotes", 0);
+		ft_printf("%!minishell: unexpected EOF while looking for matching `%c'\n", quote_char);
 		return (0);
 	}
 	return (word_count);

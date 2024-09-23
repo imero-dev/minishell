@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:05 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/06/14 17:23:53 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:52:18 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*get_name(char *input)
 		return (NULL);
 	return (name);
 }
+
 char	*get_value(char *input)
 {
 	char	*value;
@@ -42,6 +43,7 @@ char	*get_value(char *input)
 		return (NULL);
 	return (value);
 }
+
 t_envlist	*new_env(char *name, char *value, bool export)
 {
 	t_envlist	*node;
@@ -92,7 +94,7 @@ int	env_writer(t_envlist *env_var)
 
 char	*env_get(char *name)
 {
-	t_envlist *env_var;
+	t_envlist	*env_var;
 
 	env_var = get_data()->env_vars;
 	while (env_var && env_var->name)

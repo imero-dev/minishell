@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/20 03:10:44 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 03:24:51 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,31 @@ void	garbage_collector(void)
 
 void	interpreter(char *line)
 {
-	char	**words;
+	char	**tokens;
 	int 	i;
 
-	i = 0;
+	i = -1;
 	if (!line || ft_strlen(line) == 0)
 		return ;
 	get_data()->orders = ft_split(line, '|'); // FIXME no deberia splitear si | esta entre comillas
-	while (get_data()->orders[i])
+	while (get_data()->orders[++i])
 	{
-		words = syntax_spliter(get_data()->orders[i]);
-		if (words == NULL)
+		tokens = syntax_spliter(get_data()->orders[i]);
+		if (tokens == NULL)
 		{
-			// printf(RED "NULL recieved from syntax_spliter()\n" NC);
-			get_data()->last_exit_status = 2; // crei que no tiene que hacer nada sin mas
+			get_data()->last_exit_status = 2;
 			return ;
 		}
-		// FIXME si una word[0] es null pero hay mas palabras deberia eliminarla y seguir
-		// TODO esto tendria que estar en run commands
-		if (words[0] == NULL || words[0][0] == '\0')
+		if (tokens[0] == NULL )
 			return ;
-		if (!add_command(words))
+		if (!add_command(tokens))
 		{
-			ft_perror("minishell: syntax error", 0);// ? imprimir error 
-			ft_array_free(words);
+			ft_perror("minishell: syntax error", 0);
+			ft_array_free(tokens);
 			return;
 		}
-		i++;
 	}
 	run_commands();
-	if (DEBUG)
-		execute_on_bash(line);
-	if (DEBUG)
-		print_words(words);
-	free_commandlist(&get_data()->commandlist);
 }
 
 int	main(int argc, char **argv, char **enviroment)
@@ -77,27 +68,30 @@ int	main(int argc, char **argv, char **enviroment)
 	data = get_data();
 	signal(SIGINT, handle_sigint);   // Ctrl+C
 	signal(SIGQUIT, handle_sigquit); // Ctrl+\ (Ctrl+Ç)
-										//	signal(SIGTERM, handle_sigint); 
-												// kill
+//	signal(SIGTERM, handle_sigint); // kill  No recuerdo porque la quité pero funciona igua con ella que sin ella
 	data->last_line = ft_strdup("");
 	data->env_vars = env_initializer(enviroment);
-	data->prompt = ft_strjoinfree1(ft_strjoinfree2(GREEN "user@localhost" NC ":" BLUE,
-				get_actual_dir()), NC "$ ");
+	data->prompt = ft_strdup("");
 	while (1)
 	{
-		//ft_free(&data->prompt);
-		//data->prompt = ft_strjoinfree1(ft_strjoinfree2(GREEN "user@localhost" NC ":" BLUE,
-		//		get_actual_dir()), NC "$ ");
-		data->line = readline(data->prompt); // TODO free
-		if (data->line == NULL)              // Ctrl+D
-												// if (isatty(STDIN_FILENO))
-													// Solo salir si es terminal interactivo
-													// TODO revisar
+		ft_free(&data->prompt);
+		data->prompt = ft_strjoinfree1(ft_strjoinfree2(GREEN "42user@localhost" NC ":" BLUE,
+				get_actual_dir()), NC "$ ");
+		data->line = readline(data->prompt); 
+		// quitar, solo para mpanic
+ 		if (data->line == NULL)
+		{
+			if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 6);
+			exit (data->last_exit_status);
+		}
+		// quitar, solo para mpanic 
+		if (data->line == NULL)
 			exit_shell(NULL, 0);
-		// printf("%c\n", data->line[0]);
 		if (ft_strcmp(data->line, data->last_line) != 0)
 			add_history(data->line);
 		interpreter(data->line);
+		ft_array_free_null(&data->orders);
 		ft_free(&data->last_line);
 		data->last_line = data->line;
 	}

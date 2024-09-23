@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_input_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/20 18:52:21 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/23 04:50:37 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 // https://www.gnu.org/software/bash/manual/bash.html#Redirections
 // https://www.terminaltemple.com
 
-static int ft_write(int fd, char *line)
+static int	ft_write(int fd, char *line)
 {
-	int rt;
+	int	rt;
+
 	if (!fd)
 		fd = 1;
 	rt = write(fd, line, ft_strlen(line));
 	rt += write(fd, "\n", 1);
-	return rt;
+	return (rt);
 }
 
 void	free_arr(char **array)
@@ -40,24 +41,24 @@ void	free_arr(char **array)
 	free(array);
 }
 
-static int input_files_opener(char *file)
+static int	input_files_opener(char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
-	if(fd)
+	if (fd)
 	{
 		close(fd);
 		fd = 0;
 	}
-	fd = open(file, O_RDWR , 0644);
-	return(fd);
+	fd = open(file, O_RDWR, 0644);
+	return (fd);
 }
 
-void ft_heredoc(char *eof)
+void	ft_heredoc(char *eof)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	fd = 0;
 	fd = open(".heredoc", O_TRUNC | O_RDWR | O_CREAT, 0644);
@@ -65,37 +66,37 @@ void ft_heredoc(char *eof)
 	{
 		line = readline("> ");
 		if (ft_strcmp(line, eof) == 0)
-			break;
-		ft_write(fd,line);
+			break ;
+		ft_write(fd, line);
 	}
 	close(fd);
 }
 
 int	input_redirections(char **words)
 {
-	int		i;
-	int		fd;
+	int	i;
+	int	fd;
 
 	fd = 0;
 	i = -1;
 	while (words[++i])
 	{
-		if(ft_strcmp(words[i], "<<") == 0 && words[i + 1])
+		if (ft_strcmp(words[i], "<<") == 0 && words[i + 1])
 		{
-			ft_heredoc(words[i +1]);
-			continue;;
+			ft_heredoc(words[i + 1]);
+			continue ;
 		}
 		else if (ft_strcmp(words[i], "<") == 0 && words[i + 1])
 		{
 			if (access(".heredoc", F_OK) == 0)
 				unlink(".heredoc");
-			if(fd > 0)
+			if (fd > 0)
 			{
-				close(fd);	
+				close(fd);
 				fd = 0;
 			}
 			fd = input_files_opener(words[i + 1]);
 		}
 	}
-	return fd;
+	return (fd);
 }

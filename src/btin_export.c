@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:10 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/19 02:22:57 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:51:40 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	save_var(t_envlist *env_vars, char **words)
 			}
 			tmp = tmp->next;
 		}
-		if (ft_strchr(words[i], '=') && ft_isalnumstr(name)) 
+		if (ft_strchr(words[i], '=') && ft_isalnumstr(name))
 			add_env(&env_vars, new_env(get_name(words[i]), get_value(words[i]),
 					false));
 		free(name);
