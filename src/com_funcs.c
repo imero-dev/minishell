@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 23:54:44 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:36:08 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	free_commandlist(t_commandlist **commandlist)
 	*commandlist = NULL;
 }
 
-void	run_command(t_commandlist *command)
+void	run_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
 {
 	//FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
 	if (!command->args[0])
@@ -141,67 +141,99 @@ void	run_command(t_commandlist *command)
 	{
 		command->command = find_command(command->args[0]);
 		if(command->command)
-			get_data()->last_exit_status = exec_command(get_data()->commandlist);
+			get_data()->last_exit_status = exec_command(command, first, pipefd, next_pipefd);
 	}
+}
+void miniexec(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
+{
+	
+	if(access(".heredoc", R_OK) == 0)// TODO nueva funcion que no repita 3 veces lo mismo
+	{
+		command->fd_in = open(".heredoc", O_RDWR); // FIXME esto deberia hacerse en la redireccion y si luego hay otra redireccion que se pise siguiendo el orden de ejecucion
+		if (dup2(command->fd_in, STDIN_FILENO) == -1)// FIXME creo que los .heredoc no funcionan dentro de un pipe porque se ejecutan en paralelo
+			perror("minishell: closing standard input: Bad file descriptor");
+		close(command->fd_in);
+	}
+	else if (command->fd_in)
+	{
+		if (dup2(command->fd_in, STDIN_FILENO) == -1)
+			perror("minishell: closing standard input: Bad file descriptor");
+		close(command->fd_in);
+	}
+	else if (!first) 
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+	if (command->fd_out)
+	{
+		printf("%d\n", command->fd_out);
+		if (dup2(command->fd_out, STDOUT_FILENO) == -1)
+			perror("minishell: closing standard output: Bad file descriptor\n");
+		close(command->fd_out);
+	}
+	else if (command->next != NULL) 
+	{
+		close(next_pipefd[0]);
+		dup2(next_pipefd[1], STDOUT_FILENO);
+		close(next_pipefd[1]);
+	}
+	execvp(command->args[0], command->args);
+	perror("execvp");
 }
 
 int	run_commands(void)
 {
 	t_commandlist	*current;
-
-	get_data()->runing_commands = true;
+	int				pipefd[2];
+	int				next_pipefd[2];
+    bool			first_command;
+    
+	first_command = true;
 	current = get_data()->commandlist;
-	while (current && current->args)
+    while (current != NULL) 
 	{
-		run_command(current);
-		current = current->next;
-	}
-	free_commandlist(&get_data()->commandlist);
-	get_data()->runing_commands = false;
-	return (0);
+		run_command(current,first_command, pipefd, next_pipefd);
+        first_command = false;
+        current = current->next;
+    }
+	return 0;
 }
 
-int	exec_command(t_commandlist *command)
+void close_old_advance_pipe(t_commandlist *command, bool first,int pipefd[2], int next_pipefd[2])
+{
+	if (!first)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+	}
+	if (command->next != NULL)
+	{
+		pipefd[0] = next_pipefd[0];
+		pipefd[1] = next_pipefd[1];
+	}	
+}
+
+int	exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
 {
 	pid_t	pid;
-	int		status;
-
-
- 	if (!command->command)
-		return (get_data()->last_exit_status);
-	get_data()->last_exit_status = 0;
-	pid = fork();
-	if (pid == 0)
+	int 	status;
+	
+	command->fd_in = input_redirections(command->redirects);
+	command->fd_out = output_redirections(command->redirects);
+ 	if (command->next != NULL) 
 	{
-		command->fd_in = input_redirections(command->redirects);
-		command->fd_out = output_redirections(command->redirects);
-		if(access(".heredoc", R_OK) == 0)// TODO nueva funcion que no repita 3 veces lo mismo
-		{
-			command->fd_in = open(".heredoc", O_RDWR); // FIXME esto deberia hacerse en la redireccion y si luego hay otra redireccion que se pise siguiendo el orden de ejecucion
-			if (dup2(command->fd_in, STDIN_FILENO) == -1)// FIXME creo que los .heredoc no funcionan dentro de un pipe porque se ejecutan en paralelo
-				perror("minishell: closing standard input: Bad file descriptor");
-			close(command->fd_in);
-		}
-		else if (command->fd_in)
-		{
-			if (dup2(command->fd_in, STDIN_FILENO) == -1)
-				perror("minishell: closing standard input: Bad file descriptor");
-			close(command->fd_in);
-		}
-		if (command->fd_out)
-		{
-			printf("%d\n", command->fd_out);
-			if (dup2(command->fd_out, STDOUT_FILENO) == -1)
-				perror("minishell: closing standard output: Bad file descriptor\n");
-			close(command->fd_out);
-		}
-		execve(command->command, command->args, NULL);
-		// TODO  - revisar que hice en pipex
-		perror("minishell: fail on execution (execve)"); 
-		exit(2);
+		if (pipe(next_pipefd) == -1)
+			perror("pipe");
 	}
+	if ((pid = fork()) == -1)
+		perror("fork");
+	if (pid == 0) 
+		miniexec(command, first, pipefd, next_pipefd);
 	else
 	{
+		close_old_advance_pipe(command, first, pipefd, next_pipefd);	
 		waitpid(pid, &status, 0);
 		if (access(".heredoc", F_OK) == 0)
 			unlink(".heredoc");
