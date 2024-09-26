@@ -6,19 +6,16 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 01:53:52 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:33:03 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-bool		process_quotes(char c, t_spliterdata *data);
-bool		end_token(t_spliterdata *data);
-bool		append_char_to_token(char c, t_spliterdata *data);
-bool		handle_eof(t_spliterdata *data);
-
+bool	process_quotes(char c, t_spliterdata *data);
+bool	end_token(t_spliterdata *data);
+bool	append_char_to_token(char c, t_spliterdata *data);
+bool	handle_eof(t_spliterdata *data);
 
 char	**syntax_spliter(const char *str)
 {
@@ -76,7 +73,7 @@ bool	end_token(t_spliterdata *data)
 		data->quoted_token = false;
 		data->current_token[data->token_length] = '\0';
 		if (data->expand_env)
-			expand_env(&(data->current_token));
+			expand_env(&(data->current_token), 0, 0);
 		data->tokens = ft_add_to_array(data->tokens, &(data->tokens_size),
 				data->current_token);
 		if (!data->tokens)
@@ -103,7 +100,7 @@ bool	append_char_to_token(char c, t_spliterdata *data)
 	if (data->token_length + 1 >= data->token_capacity)
 	{
 		data->token_capacity *= 2;
-		temp = realloc(data->current_token, data->token_capacity); // FIXME ft_realloc
+		temp = realloc(data->current_token, data->token_capacity);
 		if (!temp)
 		{
 			free(data->current_token);
@@ -122,7 +119,7 @@ bool	handle_eof(t_spliterdata *data)
 	{
 		data->current_token[data->token_length] = '\0';
 		if (data->expand_env)
-			expand_env(&(data->current_token));
+			expand_env(&(data->current_token), 0, 0);
 		data->tokens = ft_add_to_array(data->tokens, &(data->tokens_size),
 				data->current_token);
 		if (!data->tokens)

@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 13:22:34 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/22 18:11:08 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:36:42 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ char				*ft_strjoinfree1(char *s1, char *s2);
 char				*ft_strjoinfree2(char *s1, char *s2);
 char				*ft_strjoinglue(char const *glue, ...);
 char				*ft_strjoinmulti(char const *first, ...);
-
 
 void				ft_free(char **ptr);
 int					ft_array_free(char **array);

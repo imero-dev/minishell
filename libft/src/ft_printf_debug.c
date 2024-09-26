@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 00:53:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 03:44:14 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:35:34 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	ft_printconv(char c, va_list args, int *fd)
 		perror("");
 	return (0);
 }
+
 /*
 ** Función para imprimir en consola solo si debug es verdadero.
 ** Tambien deberia sacar por stderr los errores. Hay que modificar
@@ -61,8 +62,8 @@ int	ft_printf_debug(char const *format, int debug, ...)
 	while (*++p != '\0')
 		if (*p == '%')
 			count += ft_printconv(*++p, args, &fd);
-		else
-			count += ft_putcharcnt(*p, fd);
+	else
+		count += ft_putcharcnt(*p, fd);
 	va_end(args);
 	count += write(1, RESET, 4);
 	return (count);

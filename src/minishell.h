@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/26 13:37:33 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:11:01 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define FD_IN 0
 # define FD_OUT 1
+# define MAX_WORD_LENGTH 1024
 
 # include "../libft/src/libft.h"
 # include <errno.h>
@@ -32,11 +33,11 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
 # include <termios.h>
-# include <bits/termios-c_lflag.h>
+# include <unistd.h>
 
-// FIXME Deberia haber una global para el status de salida de los comandos pero lo hacemos con el singleton get_data()->last_exit_status
+// FIXME Deberia haber una global para el status de salida
+// de los comandos pero lo hacemos con el singleton get_data()->last_exit_status
 
 typedef struct s_commandlist
 {
@@ -64,7 +65,7 @@ typedef struct s_data
 	char					*line;
 	char					*last_line;
 	char					*prompt;
-	char 					**orders; // ordenes entre pipes
+	char					**orders;
 	int						last_exit_status;
 	bool					runing_commands;
 	//	int						pipes_num;
@@ -84,7 +85,7 @@ typedef struct s_spliterdata
 	bool					in_single_quote;
 	bool					in_double_quote;
 	bool					expand_env;
-	bool 					quoted_token;
+	bool					quoted_token;
 }							t_spliterdata;
 
 // dirs.c
@@ -126,7 +127,7 @@ bool						check_unbalanced_quotes(t_spliterdata *data);
 void						classify_tokens(t_commandlist *command);
 
 // syntax_expand_env.c
-void						expand_env(char **token);
+void						expand_env(char **token, int i, int k);
 
 // signals.c
 void						handle_sigint(int sig);
@@ -145,7 +146,17 @@ void						garbage_collector(void);
 // command.c
 int							add_command(char **tokens);
 void						free_commandlist(t_commandlist **commandlist);
-int							fork_exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2]);
+int							fork_exec_command(t_commandlist *command,
+								bool first, int pipefd[2], int next_pipefd[2]);
 int							run_commands(void);
+
+// com_run.c
+
+// com_funcs.c
+char						*find_command(char *command);
+
+// com_find.c
+char						*handle_absolute_path(char *command);
+char						*search_in_path(char *command);
 
 #endif

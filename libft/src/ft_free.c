@@ -6,13 +6,11 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 04:14:28 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:38:22 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-
 
 int	ft_array_free_null(char ***array)
 {
@@ -38,7 +36,7 @@ int	ft_array_free(char **array)
 	return (0);
 }
 
-void ft_free(char **ptr)
+void	ft_free(char **ptr)
 {
 	if (*ptr)
 	{

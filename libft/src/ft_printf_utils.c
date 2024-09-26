@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 00:09:31 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 18:13:58 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:37:37 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_putcharcnt(char c, int fd)
 	return (1);
 }
 
-int	ft_putstrcnt(char *s, int fd )
+int	ft_putstrcnt(char *s, int fd)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (s)
@@ -33,7 +33,7 @@ int	ft_putstrcnt(char *s, int fd )
 
 int	ft_putnbrcnt(long n, int fd)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (n < 0)
@@ -49,8 +49,7 @@ int	ft_putnbrcnt(long n, int fd)
 	return (count);
 }
 
-int	ft_puthexcnt(unsigned long int n, int ucase, int prefix,
-		int fd )
+int	ft_puthexcnt(unsigned long int n, int ucase, int prefix, int fd)
 {
 	char	*str;
 	char	*str_u;

@@ -1,48 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   env_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:05 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/23 04:52:18 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/26 23:48:49 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_name(char *input)
-{
-	char	*name;
-	int		i;
-
-	i = 0;
-	if (!input)
-		return (NULL);
-	while (input[i] != '=')
-		i++;
-	name = ft_strldup(input, i);
-	if (!name)
-		return (NULL);
-	return (name);
-}
-
-char	*get_value(char *input)
-{
-	char	*value;
-	int		i;
-
-	i = 0;
-	if (!input)
-		return (NULL);
-	while (input[i] != '=')
-		i++;
-	value = ft_strdup(&input[i + 1]);
-	if (!value)
-		return (NULL);
-	return (value);
-}
 
 t_envlist	*new_env(char *name, char *value, bool export)
 {

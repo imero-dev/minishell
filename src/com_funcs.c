@@ -6,66 +6,26 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/26 14:59:05 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:06:02 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_dir(char *path)
+static char	*handle_empty_command(void)
 {
-	struct stat	path_stat;
-
-	if (stat(path, &path_stat) != 0)
-		return (0);
-	return (S_ISDIR(path_stat.st_mode));
-}
-
-static char	*find_command(char *command)
-{
-	char	**path;
-	char	*exec;
-	int		i;
-
-	if (!command)
-		return (NULL);
-	if (ft_strchr(command, '/'))
-	{
-		if (access(command, F_OK) == 0)
-		{
-			if (is_dir(command))
-				ft_perror("minishell: Is a directory\n", 0);
-			else if (access(command, X_OK) == 0)
-				return (ft_strdup(command));
-			else
-				perror("minishell: $(FILE)");
-			get_data()->last_exit_status = 126;
-			return (NULL);
-		} else {
-			ft_perror("minishell: No such file or directory\n", 0);
-			get_data()->last_exit_status = 127;
-			return (NULL);
-		}
-	}
-	path = ft_split(env_get("PATH"), ':');
-	if (!path)
-		return (NULL);
-	i = 0;
-	while (path[i] && command[0] )
-	{
-		exec = ft_strjoinfree1(ft_strjoin(path[i], "/"), command);
-		if (access(exec, X_OK) == 0)
-		{
-			ft_array_free(path);
-			return (exec);
-		}
-		free(exec);
-		i++;
-	}
-	ft_array_free(path);
-	ft_printf("%!%s: command not found\n", command);
+	ft_perror("minishell: command not found\n", 0);
 	get_data()->last_exit_status = 127;
 	return (NULL);
+}
+
+char	*find_command(char *command)
+{
+	if (!command || command[0] == '\0')
+		return (handle_empty_command());
+	if (ft_strchr(command, '/'))
+		return (handle_absolute_path(command));
+	return (search_in_path(command));
 }
 
 int	add_command(char **tokens)
@@ -110,145 +70,4 @@ void	free_commandlist(t_commandlist **commandlist)
 		current = next;
 	}
 	*commandlist = NULL;
-}
-
-void	run_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
-{
-	//FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de fork_exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
-	if (!command->args[0])
-		return ;
-	if (ft_strcmp(command->args[0], "exit") == 0)
-		com_exit(command->args);
-	if (ft_strcmp(command->args[0], "pwd") == 0)
-		get_data()->last_exit_status = com_pwd();
-	else if (ft_strcmp(command->args[0], "cd") == 0)
-		get_data()->last_exit_status = com_cd(command->args);
-	else if (ft_strcmp(command->args[0], "echo") == 0)
-		get_data()->last_exit_status = com_echo(command->args);
-	else if (ft_strcmp(command->args[0], "env") == 0)
-		get_data()->last_exit_status = env_writer(get_data()->env_vars);
-	else if (ft_strchr(command->args[0], '='))
-		get_data()->last_exit_status = save_var(get_data()->env_vars, command->args);
-	else if (ft_strcmp(command->args[0], "export") == 0)
-		get_data()->last_exit_status = export(get_data()->env_vars,
-				command->args);
-	else if (ft_strcmp(command->args[0], "unset") == 0)
-		get_data()->last_exit_status = unset(get_data()->env_vars,
-				command->args);
-//	else if (ft_strnstr(command->args[0], "<<", ft_strlen(*command->args)))
-//		heredoc(command->args);
-	else
-	{
-		command->command = find_command(command->args[0]);
-		if(command->command)
-			get_data()->last_exit_status = fork_exec_command(command, first, pipefd, next_pipefd);
-	}
-}
-void exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
-{
-	
-	if(access(".heredoc", R_OK) == 0)// TODO nueva funcion que no repita 3 veces lo mismo
-	{
-		command->fd_in = open(".heredoc", O_RDWR); // FIXME esto deberia hacerse en la redireccion y si luego hay otra redireccion que se pise siguiendo el orden de ejecucion
-		if (dup2(command->fd_in, STDIN_FILENO) == -1)// FIXME creo que los .heredoc no funcionan dentro de un pipe porque se ejecutan en paralelo
-			perror("minishell: closing standard input: Bad file descriptor");
-		close(command->fd_in);
-	}
-	else if (command->fd_in)
-	{
-		if (dup2(command->fd_in, STDIN_FILENO) == -1)
-			perror("minishell: closing standard input: Bad file descriptor");
-		close(command->fd_in);
-	}
-	else if (!first) 
-	{
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-	}
-	if (command->fd_out)
-	{
-		printf("%d\n", command->fd_out);
-		if (dup2(command->fd_out, STDOUT_FILENO) == -1)
-			perror("minishell: closing standard output: Bad file descriptor\n");
-		close(command->fd_out);
-	}
-	else if (command->next != NULL) 
-	{
-		close(next_pipefd[0]);
-		dup2(next_pipefd[1], STDOUT_FILENO);
-		close(next_pipefd[1]);
-	}
-	execvp(command->args[0], command->args);
-	perror("execvp");
-}
-
-int	run_commands(void)
-{
-	t_commandlist	*current;
-	int				pipefd[2];
-	int				next_pipefd[2];
-    bool			first_command;
-    
-	first_command = true;
-	get_data()->runing_commands = true;
-	current = get_data()->commandlist;
-    while (current  && current->args)  // FIXME aqui habia un current != NULL por iker en vez de esto que habia antes, hay que comprobar si != NULL es lo mismo que solo poner el puntero
-	{
-		run_command(current,first_command, pipefd, next_pipefd);
-        first_command = false;
-        current = current->next;
-    }
-	free_commandlist(&get_data()->commandlist);
-	get_data()->runing_commands = false;
-	return 0;
-}
-
-void close_old_advance_pipe(t_commandlist *command, bool first,int pipefd[2], int next_pipefd[2])
-{
-	if (!first)
-	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-	}
-	if (command->next != NULL)
-	{
-		pipefd[0] = next_pipefd[0];
-		pipefd[1] = next_pipefd[1];
-	}	
-}
-
-int	fork_exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
-{
-	pid_t	pid;
-	int 	status;
-	
-	if (!command->command)
-		return (get_data()->last_exit_status);
-	get_data()->last_exit_status = 0;
-	command->fd_in = input_redirections(command->redirects);
-	command->fd_out = output_redirections(command->redirects);
- 	if (command->next != NULL) 
-	{
-		if (pipe(next_pipefd) == -1)
-			perror("pipe");
-	}
-	if ((pid = fork()) == -1)
-		perror("fork");
-	if (pid == 0) 
-		exec_command(command, first, pipefd, next_pipefd);
-	else
-	{
-		close_old_advance_pipe(command, first, pipefd, next_pipefd);	
-		waitpid(pid, &status, 0);
-		if (access(".heredoc", F_OK) == 0)
-			unlink(".heredoc");
-		if (WIFEXITED(status))
-		{
-			//	if (WEXITSTATUS(status) != 0)
-			//		printf("Command failed with exit status: %d\n",
-			//			WEXITSTATUS(status));
-		}
-	}
-	return (WEXITSTATUS(status) + get_data()->last_exit_status);
 }

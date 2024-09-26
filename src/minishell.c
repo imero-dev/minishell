@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 00:36:10 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:46:42 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ t_data	*get_data(void)
 	static t_data	data;
 
 	return (&data);
+}
+
+static void	init_data(char **enviroment)
+{
+	t_data	*data;
+
+	data = get_data();
+	data->last_exit_status = 0;
+	data->commandlist = NULL;
+	data->last_line = ft_strdup("");
+	data->line = NULL;
+	data->prompt = ft_strdup("");
+	data->env_vars = env_initializer(enviroment);
+	data->orders = NULL;
 }
 
 void	garbage_collector(void)
@@ -33,12 +47,12 @@ void	garbage_collector(void)
 void	interpreter(char *line)
 {
 	char	**tokens;
-	int 	i;
+	int		i;
 
 	i = -1;
 	if (!line || ft_strlen(line) == 0)
 		return ;
-	get_data()->orders = ft_split(line, '|'); // FIXME no deberia splitear si | esta entre comillas
+	get_data()->orders = ft_split(line, '|');
 	while (get_data()->orders[++i])
 	{
 		tokens = syntax_spliter(get_data()->orders[i]);
@@ -47,13 +61,13 @@ void	interpreter(char *line)
 			get_data()->last_exit_status = 2;
 			return ;
 		}
-		if (tokens[0] == NULL )
+		if (tokens[0] == NULL)
 			return ;
 		if (!add_command(tokens))
 		{
 			ft_perror("minishell: syntax error", 0);
 			ft_array_free(tokens);
-			return;
+			return ;
 		}
 	}
 	run_commands();
@@ -66,25 +80,15 @@ int	main(int argc, char **argv, char **enviroment)
 	if (argc > 1 || argv[1])
 		ft_perror("To many arguments", 0);
 	data = get_data();
-	signal(SIGINT, handle_sigint);   // Ctrl+C
-	signal(SIGQUIT, handle_sigquit); // Ctrl+\ (Ctrl+Ç)
-	data->last_line = ft_strdup("");
-	data->env_vars = env_initializer(enviroment);
-	data->prompt = ft_strdup("");
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigquit);
+	init_data(enviroment);
 	while (1)
 	{
 		ft_free(&data->prompt);
-		data->prompt = ft_strjoinfree1(ft_strjoinfree2(GREEN "42user@localhost" NC ":" BLUE,
-				get_actual_dir()), NC "$ ");
-		data->line = readline(data->prompt); 
-		// quitar, solo para mpanic
- 		if (data->line == NULL)
-		{
-			if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
-			exit (data->last_exit_status);
-		}
-		// quitar, solo para mpanic 
+		data->prompt = ft_strjoinfree1(ft_strjoinfree2(GREEN
+					"42user@localhost" NC ":" BLUE, get_actual_dir()), NC "$ ");
+		data->line = readline(data->prompt);
 		if (data->line == NULL)
 			exit_shell(NULL, 0);
 		if (ft_strcmp(data->line, data->last_line) != 0)

@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 20:43:35 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 01:55:52 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:10:44 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,13 @@ static char	*get_var_name(char *token, int *i);
 static char	*get_var_value(char *var_name);
 static void	copy_var_value_to_buffer(char *var_value, char *buffer, int *k);
 
-void	expand_env(char **token)
+void	expand_env(char **token, int i, int k)
 {
-	int		i;
-	int		k;
 	char	*var_name;
 	char	*var_value;
+	char	buffer[MAX_WORD_LENGTH];
 
-	char buffer[1024]; // TODO: #define MAX_WORD_LENGTH 1024
-	i = 0;
-	k = 0;
-	ft_bzero(buffer, 1024);
+	ft_bzero(buffer, MAX_WORD_LENGTH);
 	while ((*token)[i])
 	{
 		if (is_var_start(*token, i))
@@ -60,8 +56,9 @@ static char	*get_var_name(char *token, int *i)
 {
 	int		end;
 	char	*var_name;
+	int		start;
 
-	int start = ++(*i); 
+	start = ++(*i);
 	end = start;
 	if (token[end] == '?')
 	{
@@ -102,8 +99,8 @@ static void	copy_var_value_to_buffer(char *var_value, char *buffer, int *k)
 		buffer[(*k)++] = var_value[j++];
 }
 
-//OlD CODE
-/* 
+// OlD CODE
+/*
 void	expand_env(char **token)
 {
 	char	*var_name;
@@ -124,7 +121,8 @@ void	expand_env(char **token)
 		// && (*token)[i + 1] != '"' && (*token)[i + 1] != '\'')
 		{
 			j = ++i;
-			while ((*token)[i] && (ft_isalnum((*token)[i]) || (*token)[i] == '_'))
+			while ((*token)[i] && (ft_isalnum((*token)[i])
+					|| (*token)[i] == '_'))
 				i++;
 			if ((*token)[i] == '?')
 				i++;

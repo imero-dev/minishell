@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 12:34:37 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/16 17:13:39 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:36:57 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 */
 void	ft_perror(char *str, int opt)
 {
-	/* perror(str);
-	return ;	 */
 	if (opt == -1)
 		ft_putstr_fd("Error", STDERR_FILENO);
 	else if (opt == 1)
@@ -32,7 +30,6 @@ void	ft_perror(char *str, int opt)
 		ft_putstr_fd(RED "Error: " RESET, STDERR_FILENO);
 	if (opt >= 0)
 		ft_putstr_fd(str, STDERR_FILENO);
-	//ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 /*

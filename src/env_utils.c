@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   com_pipes.c                                        :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 03:21:49 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 02:20:38 by ivromero         ###   ########.fr       */
+/*   Created: 2024/09/26 23:37:27 by ivromero          #+#    #+#             */
+/*   Updated: 2024/09/26 23:40:58 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* void run_command(t_commandlist *command)
+char	*get_name(char *input)
 {
-	int		fd[2];
-	int		save_fd;
-	int		status;
+	char	*name;
+	int		i;
 
-	if (!command)
-		return ;
-	if (command->next)
-	{
-		pipe(fd);
-		save_fd = dup(1);
-		dup2(fd[1], 1);
-		close(fd[1]);
-	}
-	exec_command(command);
-	if (command->next)
-	{
-		dup2(save_fd, 1);
-		close(save_fd);
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
-		run_command(command->next);
-	}
-} */
+	i = 0;
+	if (!input)
+		return (NULL);
+	while (input[i] != '=')
+		i++;
+	name = ft_strldup(input, i);
+	if (!name)
+		return (NULL);
+	return (name);
+}
+
+char	*get_value(char *input)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	if (!input)
+		return (NULL);
+	while (input[i] != '=')
+		i++;
+	value = ft_strdup(&input[i + 1]);
+	if (!value)
+		return (NULL);
+	return (value);
+}

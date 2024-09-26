@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:51:50 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/23 04:50:18 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/26 23:47:36 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	output_files_opener(char *file)
 		close(fd);
 		fd = 0;
 	}
-	fd = open(file, O_TRUNC | O_RDWR | O_CREAT, 0644); // FIXME
+	fd = open(file, O_TRUNC | O_RDWR | O_CREAT, 0644);
 	return (fd);
 }
 
@@ -38,7 +38,7 @@ static int	append_opener(char *file)
 		close(fd);
 		fd = 0;
 	}
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644); // FIXME
+	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	return (fd);
 }
 

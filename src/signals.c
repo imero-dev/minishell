@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 00:34:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 00:37:15 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/26 23:41:57 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	handle_sigquit(int sig)
 	if (get_data()->runing_commands)
 		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
 	else
-    {
+	{
 		rl_on_new_line();
 		rl_redisplay();
-        ft_putstr_fd("  ", STDOUT_FILENO);        
+		ft_putstr_fd("  ", STDOUT_FILENO);
 		ft_putstr_fd("\b\b  \b\b", STDOUT_FILENO);
-    }
+	}
 	get_data()->last_exit_status = 131;
 }
 

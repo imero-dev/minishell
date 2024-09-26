@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 00:09:31 by ivromero          #+#    #+#             */
-/*   Updated: 2024/06/15 23:43:18 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:38:13 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	ft_printf(char const *format, ...)
 	while (*++p != '\0')
 		if (*p == '%')
 			count += ft_printconv(*++p, args, &fd);
-		else
-			count += ft_putcharcnt(*p, fd);
+	else
+		count += ft_putcharcnt(*p, fd);
 	va_end(args);
 	return (count);
 }
