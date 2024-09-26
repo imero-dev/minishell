@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 22:34:18 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/26 13:37:33 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void						garbage_collector(void);
 // command.c
 int							add_command(char **tokens);
 void						free_commandlist(t_commandlist **commandlist);
-int							exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2]);
+int							fork_exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2]);
 int							run_commands(void);
 
 #endif

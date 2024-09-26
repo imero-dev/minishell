@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/24 22:36:08 by iker_bazo        ###   ########.fr       */
+/*   Updated: 2024/09/26 14:59:05 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	free_commandlist(t_commandlist **commandlist)
 
 void	run_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
 {
-	//FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
+	//FIXME hay que poner el fork aqui esto de abajo es exex_command y lo de fork_exec_command con el fork es el run_comand que tiene que estar aqui y ejecutarse antes
 	if (!command->args[0])
 		return ;
 	if (ft_strcmp(command->args[0], "exit") == 0)
@@ -141,10 +141,10 @@ void	run_command(t_commandlist *command, bool first, int pipefd[2], int next_pip
 	{
 		command->command = find_command(command->args[0]);
 		if(command->command)
-			get_data()->last_exit_status = exec_command(command, first, pipefd, next_pipefd);
+			get_data()->last_exit_status = fork_exec_command(command, first, pipefd, next_pipefd);
 	}
 }
-void miniexec(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
+void exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
 {
 	
 	if(access(".heredoc", R_OK) == 0)// TODO nueva funcion que no repita 3 veces lo mismo
@@ -191,13 +191,16 @@ int	run_commands(void)
     bool			first_command;
     
 	first_command = true;
+	get_data()->runing_commands = true;
 	current = get_data()->commandlist;
-    while (current != NULL) 
+    while (current  && current->args)  // FIXME aqui habia un current != NULL por iker en vez de esto que habia antes, hay que comprobar si != NULL es lo mismo que solo poner el puntero
 	{
 		run_command(current,first_command, pipefd, next_pipefd);
         first_command = false;
         current = current->next;
     }
+	free_commandlist(&get_data()->commandlist);
+	get_data()->runing_commands = false;
 	return 0;
 }
 
@@ -215,11 +218,14 @@ void close_old_advance_pipe(t_commandlist *command, bool first,int pipefd[2], in
 	}	
 }
 
-int	exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
+int	fork_exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pipefd[2])
 {
 	pid_t	pid;
 	int 	status;
 	
+	if (!command->command)
+		return (get_data()->last_exit_status);
+	get_data()->last_exit_status = 0;
 	command->fd_in = input_redirections(command->redirects);
 	command->fd_out = output_redirections(command->redirects);
  	if (command->next != NULL) 
@@ -230,7 +236,7 @@ int	exec_command(t_commandlist *command, bool first, int pipefd[2], int next_pip
 	if ((pid = fork()) == -1)
 		perror("fork");
 	if (pid == 0) 
-		miniexec(command, first, pipefd, next_pipefd);
+		exec_command(command, first, pipefd, next_pipefd);
 	else
 	{
 		close_old_advance_pipe(command, first, pipefd, next_pipefd);	
