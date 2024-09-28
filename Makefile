@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/09/29 01:11:32 by ivromero         ###   ########.fr        #
+#    Updated: 2024/09/29 01:25:46 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ AR				= ar rcs
 
 LIBFT_PATH 		= libft/
 LIBS_FLAGS 		= -lreadline -L $(LIBFT_PATH) -lft
-CFLAGS 			= -Wall -Wextra -Werror -Wpedantic -pedantic -g #-fsanitize=address #-fsanitize=thread # 
+CFLAGS 			= -Wall -Wextra -Werror #-Wpedantic -pedantic -g #-fsanitize=address #-fsanitize=thread # 
 DEBUG_FLAGS 	= -Wall -Wextra -Werror -g -D DEBUG=2 #-fsanitize=address
 VALGRIND_FLAGS 	= -Wall -Wextra -Werror -g 
 HELGRIND_FLAGS 	= -Wall -Wextra -Werror -g #-fsanitize=thread bloquea ordenador

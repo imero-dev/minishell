@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_input_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/28 13:08:28 by ivromero         ###   ########.fr       */
+/*   Created: 2024/06/13 16:28:13 by ibazo             #+#    #+#             */
+/*   Updated: 2024/09/29 01:14:46 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
