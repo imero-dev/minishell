@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:46:42 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:40:05 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	garbage_collector(void)
 	ft_free(&data->prompt);
 	free_envlist(data->env_vars);
 }
-
+/* 
 void	interpreter(char *line)
 {
 	char	**tokens;
@@ -71,7 +71,7 @@ void	interpreter(char *line)
 		}
 	}
 	run_commands();
-}
+} */
 
 int	main(int argc, char **argv, char **enviroment)
 {

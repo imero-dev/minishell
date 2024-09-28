@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 16:28:13 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/23 04:50:37 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:08:28 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,18 @@ void	ft_heredoc(char *eof)
 
 	fd = 0;
 	fd = open(".heredoc", O_TRUNC | O_RDWR | O_CREAT, 0644);
-	while (ft_strcmp(line, eof))
+	get_data()->in_here_doc = 1;
+	get_data()->here_doc_stoped = 0;
+	line = ft_strdup("");
+	while (ft_strcmp(line, eof) && ! get_data()->here_doc_stoped)
 	{
+		free(line);
 		line = readline("> ");
 		if (ft_strcmp(line, eof) == 0)
 			break ;
 		ft_write(fd, line);
 	}
+	get_data()->in_here_doc = 0;
 	close(fd);
 }
 

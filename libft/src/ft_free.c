@@ -6,11 +6,26 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:38:22 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:41:22 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int ft_matrix_free(char ***matrix)
+{
+	int i;
+
+	if (!matrix)
+		return (0);
+	i = 0;
+	while (matrix[i])
+		if (matrix[i])
+			ft_array_free(matrix[i++]);
+	free(matrix);
+	matrix = NULL;
+	return (0);
+}
 
 int	ft_array_free_null(char ***array)
 {

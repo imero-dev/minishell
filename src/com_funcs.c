@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:06:02 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 17:25:43 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	free_commandlist(t_commandlist **commandlist)
 		next = current->next;
 		if (current->command)
 			free(current->command);
-		ft_array_free(current->args);
+		//if (current->args && current->args[0])
+		//	ft_array_free(current->args);
 		if (current->redirects)
 			free(current->redirects);
 		free(current);

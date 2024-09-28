@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:11:01 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:41:46 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_data
 	char					**orders;
 	int						last_exit_status;
 	bool					runing_commands;
+	bool					in_here_doc;
+	bool					here_doc_stoped;
 	//	int						pipes_num;
 	t_commandlist			*commandlist;
 	t_envlist				*env_vars;
@@ -112,6 +114,9 @@ t_envlist					*new_env(char *name, char *value, bool export);
 t_envlist					*env_initializer(char **env);
 void						free_envlist(t_envlist *head);
 char						*env_get(char *name);
+
+// syntax_interpreter.c
+void						interpreter(char *line);
 
 // syntax_spliter.c
 char						**syntax_spliter(const char *str);

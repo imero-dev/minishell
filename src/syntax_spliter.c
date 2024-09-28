@@ -6,47 +6,13 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:33:03 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 13:30:10 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	process_quotes(char c, t_spliterdata *data);
-bool	end_token(t_spliterdata *data);
-bool	append_char_to_token(char c, t_spliterdata *data);
-bool	handle_eof(t_spliterdata *data);
-
-char	**syntax_spliter(const char *str)
-{
-	t_spliterdata	data;
-	char			c;
-
-	if (!initialize_data(&data, str))
-		return (NULL);
-	while (data.i < data.len)
-	{
-		c = str[data.i];
-		if (process_quotes(c, &data))
-			continue ;
-		else if (isspace(c) && !data.in_single_quote && !data.in_double_quote)
-		{
-			if (!end_token(&data))
-				return (NULL);
-		}
-		else
-		{
-			if (!append_char_to_token(c, &data))
-				return (NULL);
-		}
-		data.i++;
-	}
-	if (!handle_eof(&data) || !check_unbalanced_quotes(&data))
-		return (NULL);
-	return (data.tokens);
-}
-
-bool	process_quotes(char c, t_spliterdata *data)
+static bool	process_quotes(char c, t_spliterdata *data)
 {
 	if (c == '\'' && !data->in_double_quote)
 	{
@@ -66,7 +32,7 @@ bool	process_quotes(char c, t_spliterdata *data)
 	return (false);
 }
 
-bool	end_token(t_spliterdata *data)
+static bool	end_token(t_spliterdata *data)
 {
 	if (data->token_length > 0 || data->quoted_token)
 	{
@@ -93,7 +59,7 @@ bool	end_token(t_spliterdata *data)
 	return (true);
 }
 
-bool	append_char_to_token(char c, t_spliterdata *data)
+static bool	append_char_to_token(char c, t_spliterdata *data)
 {
 	char	*temp;
 
@@ -133,4 +99,33 @@ bool	handle_eof(t_spliterdata *data)
 		free(data->current_token);
 	}
 	return (true);
+}
+
+char	**syntax_spliter(const char *str)
+{
+	t_spliterdata	data;
+	char			c;
+
+	if (!initialize_data(&data, str))
+		return (NULL);
+	while (data.i < data.len)
+	{
+		c = str[data.i];
+		if (process_quotes(c, &data))
+			continue ;
+		else if (isspace(c) && !data.in_single_quote && !data.in_double_quote)
+		{
+			if (!end_token(&data))
+				return (NULL);
+		}
+		else
+		{
+			if (!append_char_to_token(c, &data))
+				return (NULL);
+		}
+		data.i++;
+	}
+	if (!handle_eof(&data) || !check_unbalanced_quotes(&data))
+		return (NULL);
+	return (data.tokens);
 }

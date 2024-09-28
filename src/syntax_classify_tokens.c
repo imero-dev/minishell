@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:11:13 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 04:55:03 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 14:40:24 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	separate_args_and_redirects(t_commandlist *command)
 	}
 	command->args[arg_index] = NULL;
 	command->redirects[redirect_index] = NULL;
-	free(command->tokens);
+	//free(command->tokens);
 }
 
 // Función principal para encontrar y separar argumentos y redirecciones

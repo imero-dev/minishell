@@ -138,6 +138,7 @@ mv
 EVALUATION COMILLAS DOBLES
 ---------------------------
 "cat lol.c | cat > lol.c"
+echo "cat lol.c | cat > lol.c"
 /bin/echo "cosa" cosa
 echo "$HOME"
 echo "*.txt"
@@ -198,3 +199,10 @@ Segfaults
 >>
 <
 <<
+
+---------------------------
+Ultimos fallos
+---------------------------
+
+echo hi > "fi le"
+echo hi > file
