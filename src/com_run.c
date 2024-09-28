@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_run.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: iker_bazo <iker_bazo@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 03:21:49 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 15:07:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 19:13:11 by iker_bazo        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	exec_command(t_commandlist *command, bool first, int pipefd[2],
 	}
 	else
 	{
-		execvp(command->args[0], command->args);
+		execve(command->command, command->args, NULL);
 		perror("execvp");
 		exit(1);
 	}
