@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/29 00:32:53 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:54:53 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,13 @@ char						*env_get(char *name);
 
 // syntax_interpreter.c
 void						interpreter(char *line);
+
+// syntax_interpreter_funcs.c
+int							count_commands(char **tokens);
+char						***allocate_commands(int cmd_count);
+void						free_commands_on_error(char ***commands, int cmd);
+char						**copy_command_tokens(char **tokens, int cmd_start,
+								int cmd_length);
 
 // syntax_spliter.c
 char						**syntax_spliter(const char *str);

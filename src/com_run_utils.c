@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 00:29:35 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/29 00:30:54 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:40:44 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,25 @@
 int	handle_direct_builtins(t_commandlist *command)
 {
 	if (ft_strcmp(command->args[0], "exit") == 0)
-	{
-		com_exit(command->args);
-		return (1);
-	}
+		return (com_exit(command->args), 1);
 	if (ft_strcmp(command->args[0], "cd") == 0)
-	{
-		get_data()->last_exit_status = com_cd(command->args);
-		return (1);
-	}
+		return (get_data()->last_exit_status = com_cd(command->args), 1);
 	if (ft_strcmp(command->args[0], "export") == 0)
 	{
 		get_data()->last_exit_status = export(get_data()->env_vars,
-				command->args);
+			command->args);
 		return (1);
 	}
 	if (ft_strcmp(command->args[0], "unset") == 0)
 	{
 		get_data()->last_exit_status = unset(get_data()->env_vars,
-				command->args);
+			command->args);
 		return (1);
 	}
 	if (ft_strchr(command->args[0], '='))
 	{
 		get_data()->last_exit_status = save_var(get_data()->env_vars,
-				command->args);
+			command->args);
 		return (1);
 	}
 	return (0);
@@ -51,9 +45,8 @@ int	is_forked_builtin(const char *cmd)
 		|| ft_strcmp(cmd, "env") == 0);
 }
 
-
 void	handle_input_redirection(t_commandlist *command, bool first,
-			int pipefd[2])
+		int pipefd[2])
 {
 	if (access(".heredoc", R_OK) == 0)
 	{

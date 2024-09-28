@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
+#    By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/09/22 06:28:17 by ivromero         ###   ########.fr        #
+#    Updated: 2024/09/29 01:11:32 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,13 +48,19 @@ OBJ_PATH		= ./obj/
 OBJDBG_PATH		= ./obj_debug/
 OBJVLG_PATH		= ./obj_valgr/
 
-SRC_NAME 		= $(shell find $(SRC_PATH) -type f -name "*.c" -exec basename {} \;)
-SRCBONUS_NAME 	= $(shell find $(SRCBONUS_PATH) -type f -name "*.c" -exec basename {} \;)
-H_FILES			= $(wildcard $(SRC_PATH)*.h)
+SRC_NAME 		= btin_dirs.c               com_ouput_redirections.c  syntax_classify_tokens.c \
+btin_echo.c               com_run.c                 syntax_expand_env.c \
+btin_exit.c               com_run_utils.c           syntax_interpreter.c \
+btin_export.c             env_funcs.c               syntax_interpreter_funcs.c \
+btin_unset.c              env_utils.c               syntax_spliter.c \
+com_find.c                minishell.c               syntax_spliter_utils.c \
+com_funcs.c               com_input_redirections.c  signals.c
+SRCBONUS_NAME 	= 
+H_FILES			= src/minishell.h
 
 OBJ_NAME		= $(SRC_NAME:.c=.o)
 OBJBONUS_NAME	= $(SRCBONUS_NAME:.c=.o)
-HBONUS_FILES	= $(wildcard $(SRCBONUS_PATH)*.h)
+HBONUS_FILES	= 
 
 ifeq (BONUS, 1)
 SRC_NAME		+= $(SRCBONUS_NAME)
