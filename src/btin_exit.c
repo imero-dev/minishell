@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   btin_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 18:27:53 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/23 04:51:23 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:55:33 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	exit_error(int status, char **args)
 {
 	if (status == 1)
-		ft_perror("bash: exit: too many arguments\n", 0);
+		ft_perror("minishell: exit: too many arguments\n", 0);
 	else if (status == 2)
-		ft_printf("%!bash: line 1: exit: %s: numeric argument required\n",
+		ft_printf("%!minishell: line 1: exit: %s: numeric argument required\n",
 			args[1]);
 	exit_shell(NULL, status);
 }

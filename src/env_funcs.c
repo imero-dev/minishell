@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:05 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/26 23:48:49 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:42:50 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	env_writer(t_envlist *env_var)
 {
 	if (!env_var)
 	{
-		perror("env not found\n");
+		perror("minishell: env not found\n");
 		return (1);
 	}
 	while (env_var && env_var->name)

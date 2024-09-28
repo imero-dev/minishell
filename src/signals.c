@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 00:34:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 13:23:26 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:52:54 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	handle_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_done = 1;
 	}
-	if (!get_data()->runing_commands )
+	if (!get_data()->runing_commands)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -37,7 +37,7 @@ void	handle_sigquit(int sig)
 {
 	(void)sig;
 	if (get_data()->runing_commands && !get_data()->in_here_doc)
-			ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
+		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
 	else
 	{
 		rl_on_new_line();
@@ -50,7 +50,7 @@ void	handle_sigquit(int sig)
 
 void	exit_shell(char *msg, int status)
 {
-	if (msg)
+	if (msg && msg[0])
 		printf("%s\n", msg);
 	garbage_collector();
 	exit(status);

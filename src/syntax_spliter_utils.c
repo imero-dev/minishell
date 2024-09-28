@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_spliter_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 20:48:39 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:34:35 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:13:27 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	**ft_add_to_array(char **tokens, size_t *size, char *new_token)
 {
 	char	**new_array;
 
-	new_array = realloc(tokens, sizeof(char *) * (*size + 2));
+	new_array = (char **)ft_realloc_array((void **)tokens, sizeof(char *)
+			* (*size + 1), sizeof(char *) * (*size + 2));
 	if (!new_array)
 	{
 		free(new_token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_spliter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:08:05 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 13:30:10 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:57:09 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static bool	append_char_to_token(char c, t_spliterdata *data)
 	if (data->token_length + 1 >= data->token_capacity)
 	{
 		data->token_capacity *= 2;
-		temp = realloc(data->current_token, data->token_capacity);
+		temp = ft_realloc(data->current_token, data->token_capacity / 2,
+				data->token_capacity);
 		if (!temp)
 		{
 			free(data->current_token);

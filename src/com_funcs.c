@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 00:58:42 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 17:25:43 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:27:00 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	free_commandlist(t_commandlist **commandlist)
 		next = current->next;
 		if (current->command)
 			free(current->command);
-		//if (current->args && current->args[0])
-		//	ft_array_free(current->args);
+		if (current->args && current->args[0])
+			ft_array_free_null(&current->args);
 		if (current->redirects)
-			free(current->redirects);
+			ft_array_free_null(&current->redirects);
 		free(current);
 		current = next;
 	}

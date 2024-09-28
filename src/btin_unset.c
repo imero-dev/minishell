@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   btin_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:00:14 by iker_bazo         #+#    #+#             */
-/*   Updated: 2024/09/19 03:00:11 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:42:18 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	unset(t_envlist *env, char **words)
 	i = -1;
 	if (!env)
 	{
-		perror("No env aviable");
+		perror("minishell: No env aviable");
 		return (1);
 	}
 	while (words[++i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 00:09:31 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:38:13 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 20:08:14 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_printf(char const *format, ...)
 	int			count;
 	int			fd;
 
-	fd = 1;
+	fd = STDOUT_FILENO;
 	if (!format)
 		return (-1);
 	p = format - 1;

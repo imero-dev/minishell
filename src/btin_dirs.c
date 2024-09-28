@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   btin_dirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 02:36:45 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/26 23:40:33 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:08:16 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 int	com_pwd(void)
 {
-	char	dir[1024];
+	char	dir[MAX_TOKEN_LENGTH];
 
 	getcwd(dir, sizeof(dir) - 1);
 	printf("%s\n", dir);

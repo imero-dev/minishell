@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_classify_tokens.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 01:11:13 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 14:40:24 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:14:46 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	count_args_and_redirects(t_commandlist *command, int *num_args,
 	}
 }
 
-// Función para asignar memoria para los nuevos arrays
 static int	allocate_new_arrays(t_commandlist *command, int num_args,
 		int num_redirects)
 {
@@ -66,7 +65,6 @@ static int	allocate_new_arrays(t_commandlist *command, int num_args,
 	return (1);
 }
 
-// Función para separar argumentos y redirecciones
 static void	separate_args_and_redirects(t_commandlist *command)
 {
 	int	arg_index;
@@ -92,10 +90,8 @@ static void	separate_args_and_redirects(t_commandlist *command)
 	}
 	command->args[arg_index] = NULL;
 	command->redirects[redirect_index] = NULL;
-	//free(command->tokens);
 }
 
-// Función principal para encontrar y separar argumentos y redirecciones
 void	classify_tokens(t_commandlist *command)
 {
 	int	num_args;
@@ -106,7 +102,7 @@ void	classify_tokens(t_commandlist *command)
 	if (command->syntax_error)
 	{
 		ft_printf("%!minishell: syntax error specting"
-			" file name or here document");
+			" file name or here documen\n");
 		get_data()->last_exit_status = 2;
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 13:41:46 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 00:32:53 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define FD_IN 0
 # define FD_OUT 1
-# define MAX_WORD_LENGTH 1024
+# define MAX_TOKEN_LENGTH 1024
 
 # include "../libft/src/libft.h"
 # include <errno.h>
@@ -148,14 +148,21 @@ int							output_redirections(char **words);
 t_data						*get_data(void);
 void						garbage_collector(void);
 
-// command.c
+// com_run.c
 int							add_command(char **tokens);
 void						free_commandlist(t_commandlist **commandlist);
 int							fork_exec_command(t_commandlist *command,
 								bool first, int pipefd[2], int next_pipefd[2]);
 int							run_commands(void);
 
-// com_run.c
+// com_run_utils.c
+int							handle_direct_builtins(t_commandlist *command);
+int							is_forked_builtin(const char *cmd);
+void						handle_input_redirection(t_commandlist *command,
+								bool first, int pipefd[2]);
+void						handle_output_redirection(t_commandlist *command,
+								int next_pipefd[2]);
+void						execute_builtins_or_command(t_commandlist *command);
 
 // com_funcs.c
 char						*find_command(char *command);

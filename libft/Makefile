@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+         #
+#    By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/21 13:25:53 by ivromero          #+#    #+#              #
-#    Updated: 2024/09/19 02:13:33 by ivromero         ###   ########.fr        #
+#    Updated: 2024/09/28 23:59:23 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ ft_lstnew.c		ft_lstadd_front.c ft_lstsize.c	ft_lstlast.c	ft_lstadd_back.c\
 ft_lstdelone.c	ft_lstclear.c	ft_lstiter.c	  ft_lstmap.c \
 get_next_line.c	ft_printf.c		ft_printf_utils.c \
 ft_free.c	ft_perror.c		ft_isspace.c	ft_strjoin_ext.c \
-ft_array_len.c	ft_printf_debug.c ft_strcmp.c	ft_strldup.c ft_isalnumstr.c
+ft_array_len.c	ft_printf_debug.c ft_strcmp.c	ft_strldup.c ft_isalnumstr.c \
+ft_realloc.c
 
 OBJ_NAME	= $(SRC_NAME:.c=.o)
 

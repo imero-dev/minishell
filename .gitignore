@@ -57,6 +57,7 @@ dkms.conf
 minishell
 minishell_debug
 minishell_valgrind
+minishell_valgr
 minishell_tester
 mpanic
 

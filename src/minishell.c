@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 13:40:05 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:46:08 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	garbage_collector(void)
 	t_data	*data;
 
 	data = get_data();
+	free_commandlist(&data->commandlist);
 	ft_free(&data->last_line);
 	ft_free(&data->line);
 	ft_free(&data->prompt);
@@ -78,7 +79,7 @@ int	main(int argc, char **argv, char **enviroment)
 	t_data	*data;
 
 	if (argc > 1 || argv[1])
-		ft_perror("To many arguments", 0);
+		ft_perror("minishell: To many arguments", 0);
 	data = get_data();
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);

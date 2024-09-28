@@ -14,7 +14,8 @@
         "stdbool.h": "c",
         "unistd.h": "c",
         "limits.h": "c",
-        "colors.h": "c"
+        "colors.h": "c",
+        "strings.h": "c"
     },
     "todo-tree.tree.showBadges": false,
     "todo-tree.tree.autoRefresh": true,

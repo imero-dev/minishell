@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:54:02 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 14:41:22 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 21:02:13 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_matrix_free(char ***matrix)
+int	ft_matrix_free(char ***matrix)
 {
-	int i;
+	int	i;
 
 	if (!matrix)
 		return (0);

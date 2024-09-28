@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_expand_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 20:43:35 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 13:31:24 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:07:50 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	expand_env(char **token, int i, int k)
 {
 	char	*var_name;
 	char	*var_value;
-	char	buffer[MAX_WORD_LENGTH];
+	char	buffer[MAX_TOKEN_LENGTH];
 
-	ft_bzero(buffer, MAX_WORD_LENGTH);
+	ft_bzero(buffer, MAX_TOKEN_LENGTH);
 	while ((*token)[i])
 	{
 		if (is_var_start(*token, i))
