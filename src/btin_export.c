@@ -21,25 +21,40 @@ int	add_env(t_envlist **lst, t_envlist *new)
 	return (0);
 }
 
+static bool	update_var(t_envlist *tmp, char **words, int i)
+{
+	tmp->export = true;
+	if (ft_strchr(words[i], '='))
+	{
+		free(tmp->value);
+		tmp->value = get_value(words[i]);
+	}
+	return (true);
+}
+
 int	export(t_envlist *env_vars, char **words)
 {
 	t_envlist	*tmp;
+	char		*name;
 	int			i;
+	bool		found;
 
 	i = 0;
-	while (words[i])
+	found = false;
+	while (words[++i])
 	{
-		if (ft_strchr(words[i], '='))
-			add_env(&env_vars, new_env(get_name(words[i]), get_value(words[i]),
-					true));
+		name = find_name(words[i]);
 		tmp = env_vars;
 		while (tmp)
 		{
-			if (ft_strcmp(tmp->name, words[i]) == 0)
-				tmp->export = true;
+			if (ft_strcmp(tmp->name, name) == 0)
+				found = update_var(tmp, words, i);
 			tmp = tmp->next;
 		}
-		i++;
+		if (!found && ft_strchr(words[i], '='))
+			add_env(&env_vars, new_env(get_name(words[i]), get_value(words[i]),
+					true));
+		free(name);
 	}
 	return (0);
 }

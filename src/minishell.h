@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 15:26:16 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/29 00:54:53 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 03:06:22 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int							env_writer(t_envlist *env);
 int							unset(t_envlist *env, char **words);
 int							export(t_envlist *env_vars, char **words);
 int							save_var(t_envlist *env_vars, char **words);
+char						*find_name(char *input);
 
 char						*get_name(char *env);
 char						*get_value(char *env);

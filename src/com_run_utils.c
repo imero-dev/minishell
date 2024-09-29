@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 00:29:35 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/29 00:40:44 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 02:16:19 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_direct_builtins(t_commandlist *command)
 			command->args);
 		return (1);
 	}
-	if (ft_strchr(command->args[0], '='))
+	else if (ft_strchr(command->args[0], '='))
 	{
 		get_data()->last_exit_status = save_var(get_data()->env_vars,
 			command->args);

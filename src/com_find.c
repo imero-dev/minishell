@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com_find.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:01:07 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/27 00:17:17 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 02:52:10 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	*search_in_path(char *command)
 
 	paths = ft_split(env_get("PATH"), ':');
 	if (!paths)
+	{
+		ft_perror("minishell: No such file or directory\n", 0);
 		return (NULL);
+	}
 	i = 0;
 	while (paths[i])
 	{

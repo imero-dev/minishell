@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivromero <ivromero@student.42urduli>       +#+  +:+       +#+        */
+/*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 23:37:27 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/26 23:40:58 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 02:41:21 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*find_name(char *input)
+{
+	if (!input)
+		return (NULL);
+	if (ft_strchr(input, '='))
+		return (get_name(input));
+	else
+		return (ft_strdup(input));
+}
 
 char	*get_name(char *input)
 {

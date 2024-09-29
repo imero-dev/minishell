@@ -6,7 +6,7 @@
 #    By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/31 01:17:29 by ivromero          #+#    #+#              #
-#    Updated: 2024/09/29 01:25:46 by ivromero         ###   ########.fr        #
+#    Updated: 2024/09/29 02:44:19 by ivromero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ H_FILES			= src/minishell.h
 
 OBJ_NAME		= $(SRC_NAME:.c=.o)
 OBJBONUS_NAME	= $(SRCBONUS_NAME:.c=.o)
-HBONUS_FILES	= 
+#HBONUS_FILES	= $(wildcard $(SRCBONUS_PATH)*.h)
 
 ifeq (BONUS, 1)
 SRC_NAME		+= $(SRCBONUS_NAME)

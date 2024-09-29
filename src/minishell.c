@@ -6,7 +6,7 @@
 /*   By: ivromero <ivromero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 01:50:54 by ivromero          #+#    #+#             */
-/*   Updated: 2024/09/28 23:46:08 by ivromero         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:31:48 by ivromero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,6 @@ void	garbage_collector(void)
 	ft_free(&data->prompt);
 	free_envlist(data->env_vars);
 }
-/* 
-void	interpreter(char *line)
-{
-	char	**tokens;
-	int		i;
-
-	i = -1;
-	if (!line || ft_strlen(line) == 0)
-		return ;
-	get_data()->orders = ft_split(line, '|');
-	while (get_data()->orders[++i])
-	{
-		tokens = syntax_spliter(get_data()->orders[i]);
-		if (tokens == NULL)
-		{
-			get_data()->last_exit_status = 2;
-			return ;
-		}
-		if (tokens[0] == NULL)
-			return ;
-		if (!add_command(tokens))
-		{
-			ft_perror("minishell: syntax error", 0);
-			ft_array_free(tokens);
-			return ;
-		}
-	}
-	run_commands();
-} */
 
 int	main(int argc, char **argv, char **enviroment)
 {
